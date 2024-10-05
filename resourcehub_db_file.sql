@@ -97,8 +97,8 @@ CREATE TABLE `request` (
 INSERT INTO `request` (`REQUEST_ID`, `USER_ID`, `RESOURCE_ID`, `EVENT_ID`, `TIME_SLOT_ID`, `REQUEST_DATE`, `REQUEST_APPROVED`, `PRIORITY`, `REQUEST_MESSAGE`, `DECLINE_MESSAGE`) VALUES
 (37, 60, 1, 6, 45, '2023-08-28', -1, 0, 'I need this\r\n', 'We are not ready'),
 (38, 60, 1, 4, 46, '2023-08-31', 0, 0, 'I am writing to get permission for an informative event that going to be conducted by IEEE SB of UoJ', ''),
-(39, 60, 1, 4, 46, '2023-08-31', 0, 0, 'I\'m writing to get permission for an informative event that going to be conducted by IEEE SB of UoJ', ''),
-(40, 60, 1, 4, 46, '2023-08-31', 0, 0, 'I\'m writing to get permission for an informative event that going to be conducted by IEEE SB of UoJ', '');
+(39, 60, 1, 4, 46, '2023-08-31', 0, 0, 'I''m writing to get permission for an informative event that going to be conducted by IEEE SB of UoJ', ''),
+(40, 60, 1, 4, 46, '2023-08-31', 0, 0, 'I''m writing to get permission for an informative event that going to be conducted by IEEE SB of UoJ', '');
 
 -- --------------------------------------------------------
 
