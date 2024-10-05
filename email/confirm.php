@@ -1,9 +1,5 @@
 <?php
 include 'confirm_html.php';
-include 'accept_html.php';
-include 'success_html.php';
-
-include 'reset_html.php';
 
 require 'vendor/autoload.php';
 require 'encryption.php';
