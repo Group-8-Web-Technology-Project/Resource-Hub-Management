@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<?php
+$success_html="
 <html>
 <head>
 
@@ -267,4 +268,5 @@
   <!-- end body -->
 
 </body>
-</html>
+</html>"
+?>

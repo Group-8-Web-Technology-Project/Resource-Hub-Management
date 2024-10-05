@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<?php
+$decline_html="
 <html>
 <head>
 
@@ -278,4 +279,5 @@
   <!-- end body -->
 
 </body>
-</html>
+</html>"
+?>
