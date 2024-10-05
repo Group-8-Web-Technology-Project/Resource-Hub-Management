@@ -80,17 +80,16 @@ function approveEmail($email,$username){
     $mail->send();
 }
 
-
-
 function resetEmail($email,$username,$token){
-  $mail = createMailInstance();
-  $code = encrypt($email);
+    global $reset_html;
+    $mail = createMailInstance();
+    $code = encrypt($email);
 
-  $mail->addAddress($email, $username); 
-  $mail->Subject = "$username, reset your password";
-  $mail->Body = $reset_html;
+    $mail->addAddress($email, $username); 
+    $mail->Subject = "$username, reset your password";
+    $mail->Body = $reset_html;
 
-  $mail->send();
+    $mail->send();
 }
 
 
