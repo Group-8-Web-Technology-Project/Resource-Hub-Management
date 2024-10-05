@@ -2,7 +2,7 @@
 include 'confirm_html.php';
 include 'accept_html.php';
 include 'success_html.php';
-include 'decline_html.php';
+
 include 'reset_html.php';
 
 require 'vendor/autoload.php';
@@ -59,12 +59,12 @@ function acceptEmail($email,$username,$event,$start,$end,$date,$resource){
 }
 
 function declineEmail($email,$username,$event,$start,$end,$date,$resource,$reason){
-	global $decline_html;
+	
     $mail = createMailInstance();
 
     $mail->addAddress($email, $username); 
     $mail->Subject = "Resource Request Declined";
-    $mail->Body = $decline_html;
+  
 
     $mail->send();
 }
