@@ -1,0 +1,18 @@
+.box{
+    width: 8rem;
+    height: 8rem;
+    border: 1px solid black;
+}
+.time{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.time-box{
+    width: 8rem;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
