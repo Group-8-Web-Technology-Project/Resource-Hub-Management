@@ -3,20 +3,18 @@
 require_once "../../database/connection.php";
 require_once "../../email/encryption.php";
 
-$code = $_GET["code"];
-$email = $code;
+$code = $_GET['code'];
+$email = decrypt($code, '123456789');
+$stmt = $conn->prepare("UPDATE user SET VERIFIED = 1 WHERE USER_EMAIL = ?");
+$stmt->bind_param("s", $email);
 
-$query = "UPDATE user SET  VERIFIED=1 WHERE USER_EMAIL='$email'";
-$result = $conn->query($query);
-
-if($result){
-    echo "success";
+if ($stmt->execute()) {
     header("Location: ../../email/success.html");
-}else{
-    echo "error";
+    exit();
+} else {
+    echo "error: " . $stmt->error;
 }
 
-
-
+$stmt->close();
 
 ?>

@@ -1,5 +1,4 @@
 <?php
-include 'confirm_html.php';
 
 require 'vendor/autoload.php';
 require 'encryption.php';
@@ -32,15 +31,15 @@ function createMailInstance(){
 }
 
 function confirmEmail($email,$username,$token){
-  global $confirm_html;
-  $mail = createMailInstance();
-  $code = $email;
+    $code = encrypt($email, '123456789');
+    include 'confirm_html.php';
+
+    $mail = createMailInstance();
+    $mail->addAddress($email, $username); 
+    $mail->Subject = "$username, verify your email";
+    $mail->Body = $confirm_html;
   
-  $mail->addAddress($email, $username); 
-  $mail->Subject = "$username, verify your email";
-  $mail->Body = $confirm_html;
-  
-  $mail->send();
+    $mail->send();
 }
 
 function acceptEmail($email,$username,$event,$start,$end,$date,$resource){
