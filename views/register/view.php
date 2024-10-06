@@ -491,7 +491,7 @@ function register() {
             setTimeout(() => {
                 window.location.href = "../login/view.php";
 
-            }, 400);
+            }, 3000);
         } else {
             new Notify({
                 title: 'Error',

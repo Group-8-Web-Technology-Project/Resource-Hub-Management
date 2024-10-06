@@ -1,6 +1,6 @@
 <?php
 require_once "../../database/connection.php";
-require_once "../../email/confirm.php";
+require_once "../../email/index.php";
 
 
 if(isset($_GET["search"])){

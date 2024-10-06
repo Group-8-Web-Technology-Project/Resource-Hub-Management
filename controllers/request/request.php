@@ -2,7 +2,7 @@
 
 require_once "../../database/connection.php";
 require_once "../util/checkAvailability.php";
-require_once "../../email/confirm.php";
+require_once "../../email/index.php";
 
 
 if (session_status() === PHP_SESSION_NONE) {
