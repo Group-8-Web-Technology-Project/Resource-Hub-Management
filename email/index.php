@@ -16,7 +16,7 @@ function createMailInstance(){
 
         $mail->Host       = 'smtp.gmail.com';
         $mail->Username   = '2021csc048@univ.jfn.ac.lk';
-        $mail->Password   = 'bwmy caqc bsac fust';
+        $mail->Password   = 'eedu oovw bvcp rkpk';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
         $mail->isHTML(true);
@@ -42,6 +42,17 @@ function confirmEmail($email,$username,$token){
     $mail->send();
 }
 
+function approveEmail($email,$username){
+	include 'approve_html.php';
+
+    $mail = createMailInstance();
+    $mail->addAddress($email, $username); 
+    $mail->Subject = "Account Has Been Approved";
+    $mail->Body = $approve_html;
+
+    $mail->send();
+}
+
 function acceptEmail($email,$username,$event,$start,$end,$date,$resource){
 	global $accept_html;
     $mail = createMailInstance();
@@ -60,17 +71,6 @@ function declineEmail($email,$username,$event,$start,$end,$date,$resource,$reaso
     $mail->addAddress($email, $username); 
     $mail->Subject = "Resource Request Declined";
   
-
-    $mail->send();
-}
-
-function approveEmail($email,$username){
-	global $approve_html;
-    $mail = createMailInstance();
-
-    $mail->addAddress($email, $username); 
-    $mail->Subject = "Account Has Been Approved";
-    $mail->Body = $approve_html;
 
     $mail->send();
 }
