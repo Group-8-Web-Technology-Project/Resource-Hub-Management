@@ -471,7 +471,7 @@ function register() {
         if (response.data.search("success") >= 0) {
             new Notify({
                 title: 'Success',
-                text: "Successfully Registered. Redirecting....",
+                text: "Successfully registered. Redirecting...",
                 effect: 'slide',
                 status: 'success',
                 speed: 300,
