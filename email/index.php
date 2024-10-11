@@ -30,8 +30,8 @@ function createMailInstance(){
     return $mail;
 }
 
-function confirmEmail($email,$username,$token){
-    $code = encrypt($email, '123456789');
+function confirmEmail($email,$username){
+    $code = encrypt($email, 'jhfFUFuf872t389e');
     include 'confirm_html.php';
 
     $mail = createMailInstance();
@@ -49,6 +49,17 @@ function approveEmail($email,$username){
     $mail->addAddress($email, $username); 
     $mail->Subject = "Account Has Been Approved";
     $mail->Body = $approve_html;
+
+    $mail->send();
+}
+
+function resetEmail($email,$username,$token){
+    include 'reset_html.php';
+
+    $mail = createMailInstance();
+    $mail->addAddress($email, $username); 
+    $mail->Subject = "$username, Reset your password";
+    $mail->Body = $reset_html;
 
     $mail->send();
 }
@@ -75,17 +86,6 @@ function declineEmail($email,$username,$event,$start,$end,$date,$resource,$reaso
     $mail->send();
 }
 
-function resetEmail($email,$username,$token){
-    global $reset_html;
-    $mail = createMailInstance();
-    $code = encrypt($email);
-
-    $mail->addAddress($email, $username); 
-    $mail->Subject = "$username, reset your password";
-    $mail->Body = $reset_html;
-
-    $mail->send();
-}
 
 
 

@@ -104,7 +104,7 @@ if(isset($_GET['register'])){
     
     if($result){
         echo "success";
-        confirmEmail($email,$username,"Abcdefghijklmnopqrstuvwxyz1234567890");
+        confirmEmail($email,$username);
     }else{
         echo "false";
     }
@@ -164,26 +164,41 @@ if(isset($_GET['reset'])){
     $password = $data["password"];
     $token = $data["token"];
 
-    $password = password_hash($password,PASSWORD_DEFAULT);
+    $password_hash = password_hash($password,PASSWORD_DEFAULT);
 
-    $query = "SELECT * FROM reset_token WHERE TOKEN='$token'";
-    $result = $conn->query($query);
-    if($result){
-        while($row = $result->fetch_assoc()){
-            $uid = $row["USER_ID"];
-            $query = "UPDATE user SET USER_PASSWORD='$password' WHERE USER_ID='$uid'";
-            $result = $conn->query($query);
-            $query = "DELETE user FROM reset_token WHERE USER_ID='$uid'";
-            $resultD = $conn->query($query);
-            if($result){
-                echo "success";
-                return;
+    $stmt = $conn->prepare("SELECT USER_ID FROM reset_token WHERE TOKEN = ?");
+    $stmt->bind_param("s", $token);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if($result->num_rows > 0){
+        $row = $result->fetch_assoc();
+        $uid = $row["USER_ID"];
+
+        $passStmt = $conn->prepare("SELECT USER_PASSWORD FROM user WHERE USER_ID = ?");
+        $passStmt->bind_param("i", $uid);
+        $passStmt->execute();
+        $passResult = $passStmt->get_result();
+        if($passResult->num_rows > 0){
+            $passRow = $passResult->fetch_assoc();
+            $oldPassword = $passRow["USER_PASSWORD"];
+
+            if(password_verify($password,$oldPassword)){
+                echo "same-password";
+            } else {
+                $updateStmt = $conn->prepare("UPDATE user SET USER_PASSWORD = ? WHERE USER_ID = ?");
+                $updateStmt->bind_param("si", $password_hash, $uid);
+                if ($updateStmt->execute()) {
+                    $deleteStmt = $conn->prepare("DELETE FROM reset_token WHERE USER_ID = ?");
+                    $deleteStmt->bind_param("i", $uid);
+                    $deleteStmt->execute();
+                    echo "success";
+                } else {
+                    echo "false";
+                }
             }
         }
-
-        
-    }else{
-        echo "false";
+    } else {
+        echo "wrong-token";
     }
 }
 

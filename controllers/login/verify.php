@@ -4,7 +4,7 @@ require_once "../../database/connection.php";
 require_once "../../email/encryption.php";
 
 $code = $_GET['code'];
-$email = decrypt($code, '123456789');
+$email = decrypt($code, 'jhfFUFuf872t389e');
 $stmt = $conn->prepare("UPDATE user SET VERIFIED = 1 WHERE USER_EMAIL = ?");
 $stmt->bind_param("s", $email);
 

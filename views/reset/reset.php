@@ -1,4 +1,6 @@
-<?php require_once("../../database/connection.php"); ?>
+<?php 
+    require_once("../../database/connection.php");
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -136,13 +138,10 @@ function login() {
         token: token
     }
 
-
-
-
     if (confirmPassword == "" || password == "") {
         new Notify({
             title: 'Invalid',
-            text: `Please fill all the fields`,
+            text: `Please fill out all the fields`,
             effect: 'slide',
             status: 'error',
             speed: 300,
@@ -166,13 +165,13 @@ function login() {
     }
 
     document.getElementById("resetBtn").disabled = true;
-     document.getElementById("resetBtn").innerHTML="<i class='fas fa-circle-notch fa-spin mr-2'></i> Resetting Password..."
+    document.getElementById("resetBtn").innerHTML="<i class='fas fa-circle-notch fa-spin mr-2'></i> Resetting Password...";
 
     axios.post("../../controllers/login/login.php?reset", data).then(res => {
         if (res.data == "success") {
             new Notify({
                 title: 'Success',
-                text: `Password Reset Successful`,
+                text: `Password reset successful`,
                 effect: 'slide',
                 status: 'success',
                 speed: 300,
@@ -183,19 +182,43 @@ function login() {
                 window.location.href = "../login/view.php";
             }, 3000);
         } else {
-            new Notify({
-                title: 'Error',
-                text: `Password Reset Failed`,
-                effect: 'slide',
-                status: 'error',
-                speed: 300,
-                autoclose: true,
-                autotimeout: 3000
-            })
+            if(res.data == "wrong-token"){
+                new Notify({
+                    title: 'Error',
+                    text: `Invalid token`,
+                    effect: 'slide',
+                    status: 'error',
+                    speed: 300,
+                    autoclose: true,
+                    autotimeout: 3000
+                })
+            }
+
+            if(res.data == "same-password"){
+                new Notify({
+                    title: 'Error',
+                    text: `New password connot be your old password`,
+                    effect: 'slide',
+                    status: 'error',
+                    speed: 300,
+                    autoclose: true,
+                    autotimeout: 3000
+                })
+            }
+
+            if(res.data == "false"){
+                new Notify({
+                    title: 'Error',
+                    text: `Password reset failed`,
+                    effect: 'slide',
+                    status: 'error',
+                    speed: 300,
+                    autoclose: true,
+                    autotimeout: 3000
+                })
+            }
+            
         }
-
-       
-
     }).finally(() => {
         document.getElementById("resetBtn").disabled = false;
         document.getElementById("resetBtn").innerHTML="Reset Password";
