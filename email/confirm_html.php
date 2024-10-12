@@ -126,7 +126,7 @@ $confirm_html="
               <div >
                 <center>
                 <a  target='_blank' style='display: inline-block;'>
-                    <img src='https://github.com/SankalpaFernando/fileHosting/blob/c6a0986fe3ad4cd9cbaf322f7c96a30868e3027d/logo-no-background.png?raw=true' alt='Logo' border='0' width='70' style='display: block; width: 70px; max-width: 70px; min-width: 70px;'>
+                    <img src='https://github.com/Group-8-Web-Technology-Project/Resource-Hub-Management/blob/main/assets/icons/logo-no-background.png?raw=true' alt='Logo' border='0' width='70' style='display: block; width: 70px; max-width: 70px; min-width: 70px;'>
                   </a>
                 </center>
                 </div>

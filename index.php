@@ -12,7 +12,7 @@
 <div class="w-full h-full flex justify-center align-middle flex-col">
 <div>
 <div class="flex align-middle justify-center">
-<img class="w-16 h-16 mr-2" src="./assets/icons/logo-no-background.png" alt="logo">
+<img class="w-32 h-32 mr-2" src="./assets/icons/logo-no-background.png" alt="logo">
 </div>
 
 <h1 class="mb-4 text-4xl font-bold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-7xl text-center mt-4 dark:text-white">Welcome to 
