@@ -76,12 +76,12 @@ function acceptEmail($email,$username,$event,$start,$end,$date,$resource){
 }
 
 function declineEmail($email,$username,$event,$start,$end,$date,$resource,$reason){
-	
-    $mail = createMailInstance();
+	include 'decline_html.php';
 
+    $mail = createMailInstance();
     $mail->addAddress($email, $username); 
     $mail->Subject = "Resource Request Declined";
-  
+    $mail->Body = $decline_html;
 
     $mail->send();
 }
