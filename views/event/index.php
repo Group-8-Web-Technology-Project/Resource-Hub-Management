@@ -498,7 +498,7 @@ function deleteEvent() {
         `../../controllers/event/event.php?delete&eventID=${eventID}`
     ).then(res => {
         console.log(res.data)
-        window.location.href = `${window.location.origin}/views/event/view.php`;
+        window.location.replace("/Resource-hub-Management/views/event/view.php");
     })
 }
 
