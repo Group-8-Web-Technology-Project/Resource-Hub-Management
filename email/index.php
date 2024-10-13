@@ -65,9 +65,9 @@ function resetEmail($email,$username,$token){
 }
 
 function acceptEmail($email,$username,$event,$start,$end,$date,$resource){
-	global $accept_html;
-    $mail = createMailInstance();
+	include 'accept_html.php';
 
+    $mail = createMailInstance();
     $mail->addAddress($email, $username); 
     $mail->Subject = "Your Request Has Been Approved";
     $mail->Body = $accept_html;
