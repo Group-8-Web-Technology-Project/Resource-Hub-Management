@@ -102,9 +102,12 @@
                         <span class="flex-1 ml-3 whitespace-nowrap">User Management</span>
                     </a>
                 </li>
-
-
             </ul>
+            <div class="mt-8">
+                <?php 
+                include(__DIR__ . "/sideBarCalender.php");
+                ?>
+            </div>
             <div class="mt-auto mb-3">
             <a href="../../controllers/login/login.php?logout" class="lg:mt-auto mt-8  w-full">
                 <button type="submit"
@@ -143,6 +146,8 @@ document.getElementById("toggle-button").addEventListener("click", function() {
         document.getElementById("toggle-button").innerHTML = `<i class="fa-solid fa-sun fa-xl"><i/>`
     }
 });
+
+
 if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
         '(prefers-color-scheme: dark)').matches)) {
     document.documentElement.classList.add('dark');
