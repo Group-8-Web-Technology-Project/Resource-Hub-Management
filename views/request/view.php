@@ -22,7 +22,7 @@
 
     <input type="hidden" id="loading" name="loading">
 
-    <div class="p-4 sm:ml-64">
+    <div class="p-4 pt-16 sm:ml-64">
 
         <div class="w-full md:w-11/12 m-auto 2xl:w-4/5">
 

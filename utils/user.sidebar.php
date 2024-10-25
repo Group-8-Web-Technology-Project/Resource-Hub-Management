@@ -68,6 +68,11 @@
 
 
             </ul>
+            <div class="mt-8">
+                <?php 
+                include(__DIR__ . "/sideBarCalender.php");
+                ?>
+            </div>
             <div class="mt-auto mb-3">
             <a href="../../controllers/login/login.php?logout" class="lg:mt-auto mt-8  w-full">
                 <button type="submit"
