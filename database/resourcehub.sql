@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2024 at 01:30 AM
+-- Generation Time: Oct 26, 2024 at 06:27 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,11 +29,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `events` (
   `ID` int(11) NOT NULL,
-  `EVENT_NAME` varchar(50) NOT NULL,
+  `EVENT_NAME` varchar(200) NOT NULL,
   `EVENT_TYPE` varchar(50) NOT NULL,
   `CONDUCT_BY` varchar(50) NOT NULL,
-  `OPTIONAL_DETAILS` varchar(100) NOT NULL,
-  `RECURRING` tinyint(1) NOT NULL,
+  `OPTIONAL_DETAILS` varchar(100) DEFAULT NULL,
+  `RECURRING` tinyint(1) NOT NULL DEFAULT 0,
   `TEMP` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -48,8 +48,8 @@ CREATE TABLE `occupied` (
   `RESOURCE_ID` int(11) NOT NULL,
   `EVENT_ID` int(11) NOT NULL,
   `TIME_SLOT_ID` int(11) NOT NULL,
-  `OCCUPIED_DATE` date NOT NULL,
-  `ACTIVE` tinyint(1) NOT NULL DEFAULT 1
+  `OCCUPIED_DATE` date DEFAULT NULL,
+  `ACTIVE` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -124,7 +124,7 @@ CREATE TABLE `time_slot` (
   `ID` int(11) NOT NULL,
   `START_TIME` int(11) NOT NULL,
   `END_TIME` int(11) NOT NULL,
-  `DAY` varchar(50) NOT NULL
+  `DAY` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -226,13 +226,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `occupied`
 --
 ALTER TABLE `occupied`
-  MODIFY `OCCUPY_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `OCCUPY_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT for table `request`
@@ -250,13 +250,13 @@ ALTER TABLE `resource`
 -- AUTO_INCREMENT for table `time_slot`
 --
 ALTER TABLE `time_slot`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `USER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `USER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- Constraints for dumped tables

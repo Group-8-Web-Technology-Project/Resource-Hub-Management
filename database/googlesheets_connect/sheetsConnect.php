@@ -20,7 +20,7 @@ $client->setAccessType('offline');
 $client->setAuthConfig(__DIR__ . '/credentials.json');
 
 $service = new Google_Service_Sheets($client);                          echo"<script>console.log('Starting service...');</script>";
-$spreadsheetId = "16VWcYsOrCBhZDV-1Hg79bhvDCH8cEDL0k_yJM40xR2I";        if($service){echo"<script>console.log('Connected!');</script>";}
+$spreadsheetId = "1jmOBYFbvlLutfWyr7eJduwIOERQS7H9kLtIhOal7aHw";        if($service){echo"<script>console.log('Connected!');</script>";}
 
 $table_start_letter = "B";
 $table_start_number = 4;                                                echo"<script>console.log('Table start: $table_start_letter$table_start_number');</script>";
@@ -29,7 +29,7 @@ $table_end = "S28";                                                     echo"<sc
 if($allowed){
     traverse_Table($table_start_letter, $table_start_number, $table_end);
 }
-else{$time = round((180-(time()-$_COOKIE['synchronization-not-allowed']))/60, 2); echo"<script>console.log('Request limit exceeding... Synchronization not allowed for $time minutes!');</script>";}
+else{$time = round((200-(time()-$_COOKIE['synchronization-not-allowed']))/60, 2); echo"<script>console.log('Request limit exceeding... Synchronization not allowed for $time minutes!');</script>";}
 
 function traverse_Table($start_letter, $start_number, $end){
 
@@ -47,17 +47,22 @@ function traverse_Table($start_letter, $start_number, $end){
     while(true){
         global $service;
         global $spreadsheetId;
-        $range = "Timetable!$block_start_letter$block_start_number:$block_end_letter$block_end_number";
-        $response = $service->spreadsheets_values->get($spreadsheetId, $range);
-        $values = $response->getValues();
-
         global $start_time;
         global $end_time;
 
         if($block_end_number == $start_number + 14){
-            $block_start_number += 1;
-            $block_end_number += 1;  // Skipping interval row
+            $block_start_number ++;
+            $block_end_number ++;  // Skipping interval row
+            $rowString[0] = " ";
+            $rowString[1] = " ";
+            $rowString[2] = " ";
+            $rowString_matchArr[0] = 0;
+            $rowString_matchArr[1] = 0;
+            $rowString_matchArr[2] = 0;
         }
+        $range = "Timetable!$block_start_letter$block_start_number:$block_end_letter$block_end_number";
+        $response = $service->spreadsheets_values->get($spreadsheetId, $range);
+        $values = $response->getValues();
 
         switch($block_start_number){
             case $start_number:
@@ -103,7 +108,7 @@ function traverse_Table($start_letter, $start_number, $end){
                     $level = $row[0];
                     $by = preg_replace('/[^A-Za-z0-9]/', '', $row[1]);
                     $by = preg_replace('/[0-9]/', '', $by );
-                    if(preg_match("#[" . "\xCC\xB6" . "]#", $by)){ break; }
+                    if(preg_match("#[" . "\xCC\xB6" . "]#", $by)){ continue; }
                     $resource = $row[2];
             
                     switch($iteration){
@@ -140,7 +145,8 @@ function traverse_Table($start_letter, $start_number, $end){
                     $timeSlotID = pushData_TimeSlot($start_time, $end_time, $day);
 
                     date_default_timezone_set("Asia/Colombo");
-                    if((double)date("G.i")>$start_time && (double)date("G.i")<$end_time){
+                    $today_day = date("l");
+                    if((double)date("G.i")>$start_time && (double)date("G.i")<$end_time && $day == $today_day){
                         $active = 1;
                     } else{ $active = 0; }
 
@@ -149,14 +155,12 @@ function traverse_Table($start_letter, $start_number, $end){
                 $iteration++;
             }
         }
-        
-        //There is an error in creating time slots
 
         if($rowString_matchArr[0]!=0 && $rowString[0] != " "){
             if($rowString_matchArr[0]==1){
-                $start_time -= 1;
+                $start_time --;
                 $timeSlotID = pushData_TimeSlot($start_time, $end_time, $day);
-                $start_time += 1;
+                $start_time ++;
             }
             if($rowString_matchArr[0]==2){  // Need to add code for updating extended time slots
                 $start_time -= 2;
@@ -166,9 +170,9 @@ function traverse_Table($start_letter, $start_number, $end){
         }
         if($rowString_matchArr[1]!=0 && $rowString[1] != " "){
             if($rowString_matchArr[1]==1){
-                $start_time -= 1;
+                $start_time --;
                 $timeSlotID = pushData_TimeSlot($start_time, $end_time, $day);
-                $start_time += 1;
+                $start_time ++;
             }
             if($rowString_matchArr[1]==2){
                 $start_time -= 2;
@@ -178,9 +182,9 @@ function traverse_Table($start_letter, $start_number, $end){
         }
         if($rowString_matchArr[2]!=0 && $rowString[2] != " "){
             if($rowString_matchArr[2]==1){
-                $start_time -= 1;
+                $start_time --;
                 $timeSlotID = pushData_TimeSlot($start_time, $end_time, $day);
-                $start_time += 1;
+                $start_time ++;
             }
             if($rowString_matchArr[2]==2){
                 $start_time -= 2;
@@ -201,6 +205,9 @@ function traverse_Table($start_letter, $start_number, $end){
             $rowString[0] = " ";
             $rowString[1] = " ";
             $rowString[2] = " ";
+            $rowString_matchArr[0] = 0;
+            $rowString_matchArr[1] = 0;
+            $rowString_matchArr[2] = 0;
 
             $day_num++;
             switch($day_num){
@@ -236,8 +243,6 @@ function pushData_Events($level, $by){
     $type = str_contains($level, "(P)")? 'Practical session' : 'Lecture';
     $level = trim(str_replace("(P)","",$level));
 
-    $eventName = "Level " . $level . " $type";
-    $eventType = $type;
     $conductBy = $by;
 
     global $conn;
@@ -249,6 +254,9 @@ function pushData_Events($level, $by){
         $conductBy = $row["USER_NAME"];
     }
 
+    $eventName = "Level " . $level . " $type " . " by " . $conductBy;
+    $eventType = $type;
+    
     $query_select = "SELECT * FROM events WHERE EVENT_NAME = '$eventName' AND EVENT_TYPE = '$eventType' AND CONDUCT_BY = '$conductBy'";
     $result = $conn->query($query_select);
     if($result->num_rows>0){
@@ -305,7 +313,11 @@ function pushData_Occupied($resource, $eventID, $timeSlotID, $active){
     if($result->num_rows>0){
         $row = $result->fetch_assoc();
         $resource_id = $row["ID"];
-    } else { return; }
+    }
+    else{
+        echo"<script>console.log('Resource not found in the database!: $resource for event id-$eventID');</script>";    
+        return;
+    }
 
     $query_check = "SELECT * FROM occupied WHERE EVENT_ID = '$eventID' AND RESOURCE_ID = '$resource_id' AND TIME_SLOT_ID = '$timeSlotID'";
     $result = $conn->query($query_check);
