@@ -51,6 +51,17 @@
         <div class="flex h-full flex-col">
             <ul class="space-y-2 font-medium flex flex-col">
                 <li>
+                    <a href="../dashboard/view.php"
+						class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+						<svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+							xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M3 3h4v4H3V3zm7 0h11v7h-2V5h-9V3zm0 9h4v9h-4v-9zm-7 7h4v-4H3v4zm7-7h-4v4h4v-4zm9 4h-2v2h-2v-4h4v2z" />
+						</svg>
+						<span class="ml-3">Dashboard</span>
+					</a>
+
+                </li>
+                <li>
                     <a href="../home/view.php"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -101,6 +112,16 @@
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">User Management</span>
                     </a>
+                </li>
+                <li>
+                    <a href="../waitlist/view.php"
+						class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+						<svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+							xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M12 2a9 9 0 1 1-9 9 9.01 9.01 0 0 1 9-9zm1 5h-2v6h4v-2h-2zm-9.5 9a2.5 2.5 0 1 1 2.5 2.5 2.5 2.5 0 0 1-2.5-2.5zm11.5 2.5a2.5 2.5 0 1 1 2.5-2.5 2.5 2.5 0 0 1-2.5 2.5zm-6.5 0h5a2 2 0 0 1 2 2v1H4v-1a2 2 0 0 1 2-2z" />
+						</svg>
+						<span class="flex-1 ml-3 whitespace-nowrap">Waitlist</span>
+					</a>
                 </li>
             </ul>
             <div class="mt-8">
