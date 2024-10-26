@@ -1,5 +1,5 @@
 <?php
-require_once '../../database/googlesheets_connect/vendor/autoload.php';
+require_once 'vendor/autoload.php';
 require_once '../../database/connection.php';
 
 global $allowed;
