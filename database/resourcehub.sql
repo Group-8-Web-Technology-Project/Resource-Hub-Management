@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2024 at 06:27 AM
+-- Generation Time: Oct 26, 2024 at 08:37 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -103,16 +103,16 @@ CREATE TABLE `resource` (
 --
 
 INSERT INTO `resource` (`ID`, `RESOURCE_NAME`, `RESOURCE_TYPE`, `OPTIONAL_DETAILS`, `BUILDING_NAME`, `SEATING`, `IMAGE`) VALUES
-(1, 'CSL - 1 & 2', 'Lab', 'Computer Science Lab @ 1st Floor of the DCS building			', 'DCS building', 100, ''),
+(1, 'CSL - 1 & 2', 'Lab', 'Computer Science Lab @ 1st Floor of the DCS building			', 'DCS building', 100, '../../assets/images/csl_1&2.jpg'),
 (2, 'CSL - 3 & 4', 'Lab', 'Computer Science Lab @ 2nd Floor of the DCS building			', 'DCS building', 100, ''),
 (3, 'CSH', 'Lecture Hall', 'Computer Science Lecture Hall @ 2nd Floor of the DCS building			', 'DCS building', 60, ''),
-(4, 'CSA', 'Auditorium', 'DCS Auditorium', 'DCS building', 150, ''),
-(5, 'CUL - 1', 'Lecture Hall', 'Computer Unit Lecture Hall @ Ground Floor of the New Science Block			', 'New Science Block', NULL, ''),
+(4, 'CSA', 'Auditorium', 'DCS Auditorium', 'DCS building', 150, '../../assets/images/csa.jpg'),
+(5, 'CUL - 1', 'Lecture Hall', 'Computer Unit Lecture Hall @ Ground Floor of the New Science Block			', 'New Science Block', NULL, '../../assets/images/cul_1.jpg'),
 (6, 'SLL', 'Lab', 'Science Language Lab @ 2nd Floor of the New Science Block			', 'New Science Block', 67, ''),
-(7, 'DRoom', 'Discussion Room', 'Discussion Room @Ground Floor of the DCS building			', 'DCS building', NULL, ''),
+(7, 'DRoom', 'Discussion Room', 'Discussion Room @Ground Floor of the DCS building			', 'DCS building', NULL, '../../assets/images/discussion_room.jpg'),
 (8, 'P1', 'Lecture Hall', 'Physics Lecture Hall', 'Physics building', NULL, ''),
-(9, '1M', 'Lecture Hall', 'Mathematics Lecture Hall', 'Mathematics building', NULL, ''),
-(10, '2M', 'Lecture Hall', 'Mathematics Lecture Hall', 'Mathematics building', NULL, '');
+(9, '1M', 'Lecture Hall', 'Mathematics Lecture Hall', 'Mathematics building', NULL, '../../assets/images/1m.jpg'),
+(10, '2M', 'Lecture Hall', 'Mathematics Lecture Hall', 'Mathematics building', NULL, '../../assets/images/2m.jpg');
 
 -- --------------------------------------------------------
 
@@ -226,13 +226,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `occupied`
 --
 ALTER TABLE `occupied`
-  MODIFY `OCCUPY_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `OCCUPY_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
 
 --
 -- AUTO_INCREMENT for table `request`
@@ -250,13 +250,13 @@ ALTER TABLE `resource`
 -- AUTO_INCREMENT for table `time_slot`
 --
 ALTER TABLE `time_slot`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `USER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `USER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- Constraints for dumped tables
