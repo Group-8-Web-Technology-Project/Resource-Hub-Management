@@ -2,17 +2,6 @@
 require_once 'vendor/autoload.php';
 require_once '../../database/connection.php';
 
-global $allowed;
-if(!isset($_COOKIE['synchronization-not-allowed'])){
-    setcookie("synchronization-not-allowed", time(), array(   // To make sure not exceeding GoogleAPI request limit
-        'expires' => time() + 180,
-        'path' => '/',
-        'samesite' => 'Lax'
-    ));
-    $allowed = true;
-}
-else{$allowed = false;}
-
 $client = new \Google_Client();
 $client->setApplicationName('SheetsToResourceHub');
 $client->setScopes([\Google_Service_Sheets::SPREADSHEETS]);
@@ -26,10 +15,32 @@ $table_start_letter = "B";
 $table_start_number = 4;                                                echo"<script>console.log('Table start: $table_start_letter$table_start_number');</script>";
 $table_end = "S28";                                                     echo"<script>console.log('Table end: $table_end');</script>";
 
-if($allowed){
-    traverse_Table($table_start_letter, $table_start_number, $table_end);
+date_default_timezone_set("Asia/Colombo");
+$datetime_now = date("Y-m-d h:i:s");
+$query = "SELECT * FROM script_delay WHERE ID = '0'";
+$result = $conn->query($query);
+if($result->num_rows>0){
+    $row = $result->fetch_assoc();
+    $last_run = $row["LAST_RUN"];
+    $datetime_next = date("Y-m-d h:i:s", strtotime('+30 minutes', strtotime($last_run)));
+
+    if($datetime_now>=$datetime_next){
+        traverse_Table($table_start_letter, $table_start_number, $table_end);
+
+        $set_last_run = "UPDATE script_delay SET LAST_RUN = '$datetime_now' WHERE ID = '0'";
+        $conn->query($set_last_run);
+    }
+    else{
+        $time_gap = round((strtotime($datetime_next) - strtotime($datetime_now))/60, 2);
+        echo"<script>console.log('Synchronization is not allowed for $time_gap minutes!');</script>";
+    }
 }
-else{$time = round((200-(time()-$_COOKIE['synchronization-not-allowed']))/60, 2); echo"<script>console.log('Request limit exceeding... Synchronization not allowed for $time minutes!');</script>";}
+else{
+    traverse_Table($table_start_letter, $table_start_number, $table_end);
+
+    $set_last_run = "INSERT INTO script_delay(LAST_RUN) VALUES('$datetime_now')";
+    $conn->query($set_last_run);
+}
 
 function traverse_Table($start_letter, $start_number, $end){
 
@@ -191,7 +202,7 @@ function traverse_Table($start_letter, $start_number, $end){
                 $timeSlotID = pushData_TimeSlot($start_time, $end_time, $day);
                 $start_time += 2;
             }
-        }
+        }             // Resolve 'Conducted by ('ICAMS') and (1G & 1s + date) amd (CSL 3 & 4 + SLL) , see saturday yellow slot
         
         if($end == "$block_end_letter$block_end_number"){ // Exit when it reaches the last block
             break;

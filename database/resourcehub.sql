@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2024 at 08:37 AM
+-- Generation Time: Oct 28, 2024 at 05:53 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -117,6 +117,17 @@ INSERT INTO `resource` (`ID`, `RESOURCE_NAME`, `RESOURCE_TYPE`, `OPTIONAL_DETAIL
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `script_delay`
+--
+
+CREATE TABLE `script_delay` (
+  `ID` int(11) NOT NULL DEFAULT 0,
+  `LAST_RUN` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `time_slot`
 --
 
@@ -207,6 +218,12 @@ ALTER TABLE `resource`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indexes for table `script_delay`
+--
+ALTER TABLE `script_delay`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indexes for table `time_slot`
 --
 ALTER TABLE `time_slot`
@@ -226,13 +243,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `occupied`
 --
 ALTER TABLE `occupied`
-  MODIFY `OCCUPY_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
+  MODIFY `OCCUPY_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `request`
@@ -250,13 +267,13 @@ ALTER TABLE `resource`
 -- AUTO_INCREMENT for table `time_slot`
 --
 ALTER TABLE `time_slot`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `USER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `USER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- Constraints for dumped tables
