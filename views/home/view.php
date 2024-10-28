@@ -1,7 +1,7 @@
 <?php
     require_once "../../utils/header.php";
     require_once "../../utils/admin.php";
-    require_once "../../database/timetable_synchronize/synchronize.php";
+    //require_once "../../database/timetable_synchronize/synchronize.php";
 ?>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.css" rel="stylesheet" />

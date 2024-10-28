@@ -1,93 +1,81 @@
 let currentPage = 1;
-const rowsPerPage = 4;
-let allEvents = "<?php echo json_encode($events); ?>;"
-let filteredEvents = [...allEvents];
+				const rowsPerPage = 4;
+				let allRequests = <?php echo json_encode($requests); ?>;
+				let filteredRequests = [...allRequests];
 
-function renderTable(page) {
-    const tableBody = document.getElementById('eventTable');
-    tableBody.innerHTML = '';
+				function renderTable(page) {
+					const tableBody = document.getElementById('eventTable');
+					tableBody.innerHTML = '';
 
-    const startIndex = (page - 1) * rowsPerPage;
-    const endIndex = Math.min(startIndex + rowsPerPage, filteredEvents.length);
+					const startIndex = (page - 1) * rowsPerPage;
+					const endIndex = Math.min(startIndex + rowsPerPage, filteredRequests.length);
 
-    for (let i = startIndex; i < endIndex; i++) {
-        const event = filteredEvents[i];
-        if (event) {
-            tableBody.innerHTML += `<tr>
-                <td>${event['EVENT_NAME']}</td>
-                <td>${event['EVENT_TYPE']}</td>
-                <td>${event['CONDUCTED_BY']}</td>
-            </tr>`;
-        }
-    }
+					for (let i = startIndex; i < endIndex; i++) {
+						const request = filteredRequests[i];
+						tableBody.innerHTML += `<tr>
+							<td>${request.USER_NAME}</td>
+							<td>${request.EVENT_NAME}</td>
+							<td>${request.RESOURCE_NAME}</td>
+							<td>${request.REQUEST_DATE}</td>
+							<td>${request.START_TIME}</td>
+							<td>${request.END_TIME}</td>
+							<td>${request.REQUEST_MESSAGE}</td>
+						</tr>`;
+					}
 
-    if (filteredEvents.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="3">No data available</td></tr>`;
-    }
-}
+					if (filteredRequests.length === 0) {
+						tableBody.innerHTML = `<tr><td colspan="7">No data available</td></tr>`;
+					}
 
-function prevPage() {
-    if (currentPage > 1) {
-        currentPage--;
-        renderTable(currentPage);
-    }
-}
+					updatePaginationControls();
+				}
 
-function nextPage() {
-    if ((currentPage * rowsPerPage) < filteredEvents.length) {
-        currentPage++;
-        renderTable(currentPage);
-    }
-}
+				function updatePaginationControls() {
+					const prevButton = document.querySelector('.paginationLeft');
+					const nextButton = document.querySelector('.paginationRight');
 
-function filterTable() {
-    const searchValue = document.getElementById("eventSearch").value.toLowerCase();
-    const hallValue = document.getElementById("hallFilter").value;
-    const dateValue = document.getElementById("dateFilter").value;
+					prevButton.disabled = currentPage === 1;
+					nextButton.disabled = currentPage * rowsPerPage >= filteredRequests.length;
+				}
 
-    filteredEvents = allEvents.filter(event => {
-        const eventDate = event['EVENT_DATE'];
-        const eventHall = event['HALL'];
-        const eventName = event['EVENT_NAME'].toLowerCase();
+				function prevPage() {
+					if (currentPage > 1) {
+						currentPage--;
+						renderTable(currentPage);
+					}
+				}
 
-        const isMatch = 
-            (eventName.includes(searchValue) || !searchValue) &&
-            (eventHall === hallValue || !hallValue) &&
-            (eventDate === dateValue || !dateValue);
+				function nextPage() {
+					if ((currentPage * rowsPerPage) < filteredRequests.length) {
+						currentPage++;
+						renderTable(currentPage);
+					}
+				}
 
-        return isMatch;
-    });
+				function filterTable() {
+					const userValue = document.getElementById("userFilter").value.toLowerCase();
+					const resourceValue = document.getElementById("resourceFilter").value.toLowerCase();
+					const dateValue = document.getElementById("dateFilter").value;
 
-    
-    currentPage = 1;
-    renderTable(currentPage);
-}
+					filteredRequests = allRequests.filter(request => {
+						const userName = request.USER_NAME.toLowerCase();
+						const resourceName = request.RESOURCE_NAME.toLowerCase();
+						const requestDate = request.REQUEST_DATE;
 
-document.getElementById("eventSearch").addEventListener("input", filterTable);
-document.getElementById("hallFilter").addEventListener("change", filterTable);
-document.getElementById("dateFilter").addEventListener("change", filterTable);
-function filterTable() {
-    const searchValue = document.getElementById("eventSearch").value.toLowerCase();
-    const resourceTypeValue = document.getElementById("resourceTypeFilter").value;
-    const dateValue = document.getElementById("dateFilter").value;
+						return (
+							(userName === userValue || !userValue) &&
+							(resourceName === resourceValue || !resourceValue) &&
+							(requestDate === dateValue || !dateValue)
+						);
+					});
 
-    const tableRows = document.querySelectorAll("#eventTable tr");
-    tableRows.forEach(row => {
-        const eventName = row.children[0].textContent.toLowerCase();
-        const resourceType = row.children[1].textContent;
-        const date = row.children[2].textContent;
+					currentPage = 1;
+					renderTable(currentPage);
+					updatePaginationControls();
+				}
 
-        const isMatch =
-            (eventName.includes(searchValue) || !searchValue) &&
-            (resourceType === resourceTypeValue || !resourceTypeValue) &&
-            (date === dateValue || !dateValue);
-        
-        row.style.display = isMatch ? "" : "none";
-    });
-}
+				document.getElementById("userFilter").addEventListener("change", filterTable);
+				document.getElementById("resourceFilter").addEventListener("change", filterTable);
+				document.getElementById("dateFilter").addEventListener("change", filterTable);
 
-document.getElementById("eventSearch").addEventListener("input", filterTable);
-document.getElementById("resourceTypeFilter").addEventListener("change", filterTable);
-document.getElementById("dateFilter").addEventListener("change", filterTable);
-
-renderTable(currentPage);
+				renderTable(currentPage);

@@ -1,6 +1,6 @@
 <?php
 require_once "../../utils/header.php";
-require_once "../../utils/admin.php";
+require_once "../../utils/user.sidebar.php";
 include("../../database/connection.php");
 ?>
 
@@ -202,7 +202,6 @@ include("../../database/connection.php");
 
 </style>
 <body class="dark:bg-slate-900">
-    <?php require_once "../../utils/sidebar.php"; ?>
 
     <div class="p-4 pt-16 sm:ml-64">
        <div class="content-wrapper">
@@ -293,43 +292,7 @@ include("../../database/connection.php");
 				mysqli_stmt_close($stmt);
 			}
         ?>
-		
-		<h2 class="text-2xl font-semibold mt-8 mb-4 dark:text-white">Waitlist</h2>
-        <?php
-			$waitlistQuery = "SELECT 
-								w.JOIN_DATE AS DATE, 
-								w.JOIN_TIME AS TIME, 
-								r.RESOURCE_NAME AS RESOURCE,
-								u.USER_NAME AS USER
-							  FROM waitlist w
-							  JOIN resource r ON w.RESOURCE_NAME = r.RESOURCE_NAME
-							  JOIN user u ON w.USER_ID = u.USER_ID";
-
-			$waitlistResult = mysqli_query($conn, $waitlistQuery);
-
-			if (mysqli_num_rows($waitlistResult) > 0) {
-				echo '<table class="min-w-full bg-white dark:bg-slate-800">';
-				echo '<thead><tr><th>Date</th><th>Time</th><th>Resource</th><th>User</th></tr></thead>';
-				echo '<tbody>';
-
-				while ($row = mysqli_fetch_assoc($waitlistResult)) {
-					echo '<tr>';
-					echo '<td>' . htmlspecialchars($row['DATE']) . '</td>';
-					echo '<td>' . htmlspecialchars($row['TIME']) . '</td>';
-					echo '<td>' . htmlspecialchars($row['RESOURCE']) . '</td>';
-					echo '<td>' . htmlspecialchars($row['USER']) . '</td>';
-					echo '</tr>';
-				}
-
-				echo '</tbody>';
-				echo '</table>';
-			} else {
-				echo "<p class='text-center text-gray-500'>No waitlisted resources found.</p>";
-			}
-        ?>
-    </div>
-
-    <script>
+		<script>
         function addToWaitlist(form) {
             const formData = new FormData(form);
             fetch(form.action, {

@@ -1,7 +1,8 @@
 <?php
 require_once "../../utils/header.php";
-require_once "../../utils/admin.php";
+require_once ("../../utils/user.sidebar.php");
 include("../../database/connection.php");
+
 
 $approve_request = "SELECT COUNT(*) AS count FROM request WHERE REQUEST_APPROVED = 1";
 $pending_request = "SELECT COUNT(*) AS count FROM request WHERE REQUEST_APPROVED = 0"; 
@@ -60,7 +61,6 @@ $total_requests = $approve_count + $pending_count + $declined_count;
     
 </style>
 <body class="dark:bg-slate-900">
-    <?php require_once "../../utils/sidebar.php"  ?>
     <div class="p-4 pt-16 sm:ml-64">
         <div class="w-full md:w-11/12 m-auto 2xl:w-4/5">
             <h1 class="mb-8 text-4xl text-center md:text-left font-bold leading-none text-gray-700 md:text-5xl lg:text-5xl 2xl:mt-10 mt-8 dark:text-white">
@@ -190,13 +190,13 @@ $total_requests = $approve_count + $pending_count + $declined_count;
                         }
                     ?>
                 </div>
-                <button class="add-notice-btn" onclick="openModal()">Add Notice</button>
+                <button class="add-notice-btn" onclick="openModal()">Add Complaint</button>
             </div>
             <div class="modal" id="noticeModal">
                 <div class="modal-content">
                     <span class="close-modal" onclick="closeModal()">&times;</span>
                     <form action="view.php" method="post" onsubmit="return false;"">
-                        <h3 id="modalTitle">Add Notice</h3>
+                        <h3 id="modalTitle">Add Complaint</h3>
                         <input type="text" id="noticeTitle" name='noticeTitle' placeholder="Topic" required>
                         <textarea id="noticeDescription" rows="3" name='noticeMessage' placeholder="Description" required></textarea>
                         <input type="date" id="noticeDate" name="noticeDate" required>
