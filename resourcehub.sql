@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2024 at 11:34 PM
+-- Generation Time: Oct 28, 2024 at 04:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,9 +44,8 @@ INSERT INTO `announcement` (`id`, `topic`, `message`, `status`, `date`) VALUES
 (2, 'AC Not working', 'The AC in the CSL 2 is not working', 'complaint', '2024-10-15'),
 (3, 'Hall is not up for requesting', 'There is a special meeting going on 2024/10/28, so the Discussion room will be unavailable between 2-5 P.M', 'notice', '2024-10-28'),
 (19, 'The Hall needs cleaning', 'The Discussion room needs to be cleaned', 'complaint', '2024-10-16'),
-(20, 'Missing Key', 'The SLL door key is missing, if anyone find, please hand over to HOD', 'notice', '2024-10-31'),
-(31, 'Door hinges are broken', 'This door hinges of CSA are broken', 'complaint', '2024-10-17'),
-(35, 'Urgent Cleaning Neede', 'The CSA auditorium needs to be cleaned', 'complaint', '2024-10-23');
+(20, 'Missing Door Key', 'The SLL door key is missing, if anyone find, please hand over to HOD as soon as anyone find it', 'notice', '2024-10-31'),
+(31, 'Door hinges are broken', 'This door hinges of CSA are broken', 'complaint', '2024-10-17');
 
 -- --------------------------------------------------------
 
@@ -281,7 +280,8 @@ INSERT INTO `user` (`USER_ID`, `USER_NAME`, `STUDENT_ID`, `USER_EMAIL`, `USER_PA
 (59, 'George Hadson', '', 'george@hadson.uk', '$2y$10$sJnmSnkUzvjFjPHPICkD/uj/PJ/y5bY3xJQnvgRwcyrBmGTKTlmCe', 'ADMIN', 0, 0),
 (60, 'John Doe', '2020/CSC/090', 'sankalpafernando2017@gmail.com', '$2y$10$Qbz/27.GKowVfSwiTighKO3HRRgPnZId3q/M5Lhf2HHCmooOST3Rm', 'STUDENT', 1, 1),
 (70, 'Thiwanka Chanditha', '', 'thiwankachandithasinhalage@gmail.com', '$2y$10$lTZTlPtw5lD8oQwlDan7Pe3oDa7Zcfi2IoaWIEoYPoSKXHNTnjxCK', 'SUPER_ADMIN', 1, 1),
-(71, 'Thiwanka Chanditha ', '', 'thiwankasinhalage@ieee.org', '$2y$10$.sz9PWLQ3TFhBIqKAETGA.0QixlWOZc/xUXJYFeWvjCCGXyf/WeHG', 'SUPER_ADMIN', 1, 1);
+(71, 'Thiwanka Chanditha ', '', 'thiwankasinhalage@ieee.org', '$2y$10$.sz9PWLQ3TFhBIqKAETGA.0QixlWOZc/xUXJYFeWvjCCGXyf/WeHG', 'SUPER_ADMIN', 1, 1),
+(72, 'chanditha', '2021/csc/000', 'slmobilestore123@gmail.com', '$2y$10$dkNsYcVb5Wh8KJAO3N10lukUsbHXriC5HC7SYyR5kNwXI/rV7Jyfu', 'STUDENT', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -290,12 +290,20 @@ INSERT INTO `user` (`USER_ID`, `USER_NAME`, `STUDENT_ID`, `USER_EMAIL`, `USER_PA
 --
 
 CREATE TABLE `waitlist` (
-  `id` int(11) NOT NULL,
-  `user_name` varchar(255) NOT NULL,
-  `user_email` varchar(255) NOT NULL,
-  `resource_id` int(11) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+  `USER_ID` int(11) NOT NULL,
+  `RESOURCE_NAME` varchar(255) NOT NULL,
+  `JOIN_DATE` date NOT NULL,
+  `JOIN_TIME` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `waitlist`
+--
+
+INSERT INTO `waitlist` (`USER_ID`, `RESOURCE_NAME`, `JOIN_DATE`, `JOIN_TIME`) VALUES
+(71, 'SSL', '2025-03-20', '15:24:02'),
+(57, 'SSL', '2024-12-18', '15:24:53'),
+(72, 'CSL 3,4', '2024-11-06', '15:43:11');
 
 --
 -- Indexes for dumped tables
@@ -357,13 +365,6 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`USER_ID`);
 
 --
--- Indexes for table `waitlist`
---
-ALTER TABLE `waitlist`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `resource_id` (`resource_id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -407,13 +408,7 @@ ALTER TABLE `time_slot`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `USER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
-
---
--- AUTO_INCREMENT for table `waitlist`
---
-ALTER TABLE `waitlist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `USER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- Constraints for dumped tables
@@ -441,12 +436,6 @@ ALTER TABLE `request`
 --
 ALTER TABLE `reset_token`
   ADD CONSTRAINT `reset_token_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `user` (`USER_ID`);
-
---
--- Constraints for table `waitlist`
---
-ALTER TABLE `waitlist`
-  ADD CONSTRAINT `waitlist_ibfk_1` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`ID`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
