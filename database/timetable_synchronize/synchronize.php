@@ -44,6 +44,8 @@ else{
 
 function traverse_Table($start_letter, $start_number, $end){
 
+    delete_old_Records();
+
     $block_start_letter = $start_letter;
     $block_start_number = $start_number;
     $block_end_letter = chr(ord($start_letter) + 2);
@@ -54,6 +56,8 @@ function traverse_Table($start_letter, $start_number, $end){
     global $rowString;
     $rowString = array(" ", " ", " ");
     $rowString_matchArr = array(0,0,0);
+    $occupiedIDArr1 = array(0,0,0);
+    $occupiedIDArr2 = array(0,0,0);
 
     while(true){
         global $service;
@@ -124,30 +128,15 @@ function traverse_Table($start_letter, $start_number, $end){
             
                     switch($iteration){
                         case 1:
-                            if($rowString[0] == "$row[0]$row[1]$row[2]"){
-                                $rowString_matchArr[0]++;
-                            }
-                            else{
-                                $rowString_matchArr[0] = 0;
-                            }
+                            $rowString[0] == "$row[0]$row[1]$row[2]" ? $rowString_matchArr[0]++ : $rowString_matchArr[0] = 0;
                             $rowString[0] = "$row[0]$row[1]$row[2]";
                             break;
                         case 2:
-                            if($rowString[1] == "$row[0]$row[1]$row[2]"){
-                                $rowString_matchArr[1]++;
-                            }
-                            else{
-                                $rowString_matchArr[1] = 0;
-                            }
+                            $rowString[1] == "$row[0]$row[1]$row[2]" ? $rowString_matchArr[1]++ : $rowString_matchArr[1] = 0;
                             $rowString[1] = "$row[0]$row[1]$row[2]";
                             break;
                         case 3:
-                            if($rowString[2] == "$row[0]$row[1]$row[2]"){
-                                $rowString_matchArr[2]++;
-                            }
-                            else{
-                                $rowString_matchArr[2] = 0;
-                            }
+                            $rowString[2] == "$row[0]$row[1]$row[2]" ? $rowString_matchArr[2]++ : $rowString_matchArr[2] = 0;
                             $rowString[2] = "$row[0]$row[1]$row[2]";
                             break;
                     }
@@ -161,7 +150,21 @@ function traverse_Table($start_letter, $start_number, $end){
                         $active = 1;
                     } else{ $active = 0; }
 
-                    pushData_Occupied($resource, $eventID, $timeSlotID, $active);
+                    $occupiedID = pushData_Occupied($resource, $eventID, $timeSlotID, $active);
+                    switch($iteration){
+                        case 1:
+                            $occupiedIDArr1[0] = $occupiedIDArr2[0];
+                            $occupiedIDArr2[0] = $occupiedID;
+                            break;
+                        case 2:
+                            $occupiedIDArr1[1] = $occupiedIDArr2[1];
+                            $occupiedIDArr2[1] = $occupiedID;
+                            break;
+                        case 3:
+                            $occupiedIDArr1[2] = $occupiedIDArr2[2];
+                            $occupiedIDArr2[2] = $occupiedID;
+                            break;
+                    }
                 }
                 $iteration++;
             }
@@ -172,11 +175,15 @@ function traverse_Table($start_letter, $start_number, $end){
                 $start_time --;
                 $timeSlotID = pushData_TimeSlot($start_time, $end_time, $day);
                 $start_time ++;
+                update_Occupied($occupiedIDArr2[0], $timeSlotID);
+                delete_Occupied($occupiedIDArr1[0]);
             }
-            if($rowString_matchArr[0]==2){  // Need to add code for updating extended time slots
+            if($rowString_matchArr[0]==2){
                 $start_time -= 2;
                 $timeSlotID = pushData_TimeSlot($start_time, $end_time, $day);
                 $start_time += 2;
+                update_Occupied($occupiedIDArr2[0], $timeSlotID);
+                delete_Occupied($occupiedIDArr1[0]);
             }
         }
         if($rowString_matchArr[1]!=0 && $rowString[1] != " "){
@@ -184,11 +191,15 @@ function traverse_Table($start_letter, $start_number, $end){
                 $start_time --;
                 $timeSlotID = pushData_TimeSlot($start_time, $end_time, $day);
                 $start_time ++;
+                update_Occupied($occupiedIDArr2[1], $timeSlotID);
+                delete_Occupied($occupiedIDArr1[1]);
             }
             if($rowString_matchArr[1]==2){
                 $start_time -= 2;
                 $timeSlotID = pushData_TimeSlot($start_time, $end_time, $day);
                 $start_time += 2;
+                update_Occupied($occupiedIDArr2[1], $timeSlotID);
+                delete_Occupied($occupiedIDArr1[1]);
             }
         }
         if($rowString_matchArr[2]!=0 && $rowString[2] != " "){
@@ -196,11 +207,15 @@ function traverse_Table($start_letter, $start_number, $end){
                 $start_time --;
                 $timeSlotID = pushData_TimeSlot($start_time, $end_time, $day);
                 $start_time ++;
+                update_Occupied($occupiedIDArr2[2], $timeSlotID);
+                delete_Occupied($occupiedIDArr1[2]);
             }
             if($rowString_matchArr[2]==2){
                 $start_time -= 2;
                 $timeSlotID = pushData_TimeSlot($start_time, $end_time, $day);
                 $start_time += 2;
+                update_Occupied($occupiedIDArr2[2], $timeSlotID);
+                delete_Occupied($occupiedIDArr1[2]);
             }
         }             // Resolve 'Conducted by ('ICAMS') and (1G & 1s + date) amd (CSL 3 & 4 + SLL) , see saturday yellow slot
         
@@ -248,7 +263,6 @@ function traverse_Table($start_letter, $start_number, $end){
     }
 
 }
-// Need to add code for deleting old events that have been removed from the timetable
 
 function pushData_Events($level, $by){
     $type = str_contains($level, "(P)")? 'Practical session' : 'Lecture';
@@ -275,7 +289,7 @@ function pushData_Events($level, $by){
         $eventID = $row["ID"];
     }
     else{
-        $query_insert = "INSERT INTO events(EVENT_NAME,EVENT_TYPE,CONDUCT_BY,OPTIONAL_DETAILS,RECURRING) VALUES('$eventName', '$eventType', '$conductBy', 'Added from timetable', '1')";
+        $query_insert = "INSERT INTO events(EVENT_NAME,EVENT_TYPE,CONDUCT_BY,OPTIONAL_DETAILS,RECURRING) VALUES('$eventName', '$eventType', '$conductBy', 'From timetable', '1')";
         $conn->query($query_insert);
         $result = $conn->query($query_select);
         if($result->num_rows>0){
@@ -296,7 +310,7 @@ function pushData_TimeSlot($startTime, $endTime, $day){
         $timeSlotID = $row["ID"];
     }
     else{
-        $query_insert = "INSERT INTO time_slot (START_TIME,END_TIME,DAY) VALUES ('$startTime','$endTime','$day')";
+        $query_insert = "INSERT INTO time_slot (START_TIME, END_TIME, DAY, OPTIONAL_DETAILS) VALUES ('$startTime','$endTime','$day', 'From timetable')";
         $conn->query($query_insert);
 
         $result = $conn->query($query_select);
@@ -340,9 +354,39 @@ function pushData_Occupied($resource, $eventID, $timeSlotID, $active){
         $conn->query($query_update);
     }
     else{
-        $query = "INSERT INTO occupied (EVENT_ID,RESOURCE_ID,TIME_SLOT_ID,ACTIVE) VALUES ('$eventID','$resource_id','$timeSlotID',$active)";
+        $query = "INSERT INTO occupied (EVENT_ID, RESOURCE_ID, TIME_SLOT_ID, ACTIVE, OPTIONAL_DETAILS) VALUES ('$eventID', '$resource_id', '$timeSlotID', $active, 'From timetable')";
         $conn->query($query);                                           echo"<script>console.log('Resource occupied: $resource for event id-$eventID');</script>";
+
+        $query_check = "SELECT * FROM occupied WHERE EVENT_ID = '$eventID' AND RESOURCE_ID = '$resource_id' AND TIME_SLOT_ID = '$timeSlotID'";
+        $result = $conn->query($query_check);
+        $row = $result->fetch_assoc();
+        $id = $row["OCCUPY_ID"];
     }
+    return $id;
+}
+
+function update_Occupied($occupiedID, $timeSlotID){
+    global $conn;
+    $query = "UPDATE occupied SET TIME_SLOT_ID = '$timeSlotID' WHERE OCCUPY_ID = '$occupiedID'";
+    $conn->query($query);
+}
+
+function delete_Occupied($occupiedID){
+    global $conn;
+    $query = "DELETE FROM occupied WHERE OCCUPY_ID = '$occupiedID'";
+    $conn->query($query);
+}
+
+function delete_old_Records(){
+    global $conn;
+    $query = "DELETE FROM occupied WHERE OPTIONAL_DETAILS = 'From timetable'";
+    $conn->query($query);
+
+    $query = "DELETE FROM time_slot WHERE OPTIONAL_DETAILS = 'From timetable'";
+    $conn->query($query);
+
+    $query = "DELETE FROM events WHERE OPTIONAL_DETAILS = 'From timetable'";
+    $conn->query($query);
 }
     
 ?>

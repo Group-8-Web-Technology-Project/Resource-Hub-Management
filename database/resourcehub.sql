@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2024 at 05:53 AM
+-- Generation Time: Oct 28, 2024 at 02:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -49,7 +49,8 @@ CREATE TABLE `occupied` (
   `EVENT_ID` int(11) NOT NULL,
   `TIME_SLOT_ID` int(11) NOT NULL,
   `OCCUPIED_DATE` date DEFAULT NULL,
-  `ACTIVE` tinyint(1) NOT NULL DEFAULT 0
+  `ACTIVE` tinyint(1) NOT NULL DEFAULT 0,
+  `OPTIONAL_DETAILS` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -135,7 +136,8 @@ CREATE TABLE `time_slot` (
   `ID` int(11) NOT NULL,
   `START_TIME` int(11) NOT NULL,
   `END_TIME` int(11) NOT NULL,
-  `DAY` varchar(50) DEFAULT NULL
+  `DAY` varchar(50) DEFAULT NULL,
+  `OPTIONAL_DETAILS` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
@@ -273,7 +275,7 @@ ALTER TABLE `time_slot`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `USER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `USER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- Constraints for dumped tables
