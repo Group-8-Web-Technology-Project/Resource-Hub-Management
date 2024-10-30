@@ -263,16 +263,20 @@ if(isset($_GET["request_add"])){
     $query = "SELECT * FROM time_slot WHERE START_TIME = '$startTime' AND END_TIME = '$endTime' AND DAY = '$day'";
     $result = $conn->query($query);
 
-    $timeSlotID = null;
-    
+    $timeSlotID;
+
     if($result->num_rows<=0){
         $query = "INSERT INTO time_slot (START_TIME,END_TIME,DAY) VALUES ('$startTime','$endTime','$day')";
-        $res=$conn->query($query);
+        $conn->query($query);
+
+        $query = "SELECT * FROM time_slot WHERE START_TIME = '$startTime' AND END_TIME = '$endTime' AND DAY = '$day'";
+        $result = $conn->query($query);
+
+        $timeSlotID = $result->fetch_assoc()["ID"];
     }
-    $query = "SELECT * FROM time_slot WHERE START_TIME = '$startTime' AND END_TIME = '$endTime' AND DAY = '$day'";
-    $result = $conn->query($query);
-    $timeSlotID = $result->fetch_assoc()["ID"];
-    
+    else{
+        $timeSlotID = $result->fetch_assoc()["ID"];
+    }
 
     //Create new Request 
     $priority="0";
@@ -291,9 +295,8 @@ if(isset($_GET["request_add"])){
 
 
     $request_message = addslashes($request_message);
-    $query = "INSERT INTO request (EVENT_ID,RESOURCE_ID,TIME_SLOT_ID,REQUEST_DATE,REQUEST_APPROVED,USER_ID,PRIORITY,REQUEST_MESSAGE,IS_RECURRING) VALUES ('$eventID','$resourceID','$timeSlotID','$date',0,$uid,'$priority','$request_message','$isRecurring')";
+    $query = "INSERT INTO request (EVENT_ID,RESOURCE_ID,TIME_SLOT_ID,REQUEST_DATE,REQUEST_APPROVED,USER_ID,PRIORITY,REQUEST_MESSAGE) VALUES ('$eventID','$resourceID','$timeSlotID','$date','0',$uid,'$priority','$request_message')";
     
-
     $result = $conn->query($query);
 
     if($result){
