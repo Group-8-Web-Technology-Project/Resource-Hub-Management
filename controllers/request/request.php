@@ -18,8 +18,11 @@ if(isset($_GET["search"])){
     $uid = $_SESSION["user_id"];
     $subSQL="";
 
-    if($user_type !== "ADMIN" && $user_type!=="SUPER_ADMIN"){
+    if($user_type !== "ADMIN" && $user_type !== "SUPER_ADMIN"){
         $subSQL = "AND request.USER_ID = '$uid'";
+    }
+    elseif($user_type == "ADMIN" || $user_type ==  "SUPER_ADMIN"){
+        $subSQL = "AND request.REQUEST_APPROVED != '1' AND request.REQUEST_APPROVED != '-1'";
     }
 
     $offset = ($page-1)*$limit;
