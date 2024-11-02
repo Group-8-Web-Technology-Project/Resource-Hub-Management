@@ -120,17 +120,18 @@ $currentPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : './.
                     const eventDetails = document.createElement('div');
                     
                     // Add event title
-                    eventDetails.innerHTML = info.event.title;
+                    //eventDetails.innerHTML = info.event.title;
 
                     // Optionally, add other event properties
                     if (info.event.extendedProps.resourceName) {
                         eventDetails.innerHTML += `<br><strong>${info.event.extendedProps.resourceName}</strong>`;
                     }
-                    eventDetails.innerHTML += `<br>${info.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${info.event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+                    //eventDetails.innerHTML += `<br>${info.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${info.event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
                     
                     // Style the event details as needed
-                    eventDetails.style.fontSize = '0.8em'; // Adjust font size
+                    eventDetails.style.fontSize = '1.0em'; // Adjust font size
                     eventDetails.style.color = 'white'; // Set text color
+                    eventDetails.style.padding = '5px'; // Add padding
 
                     // Append the details to the event element
                     info.el.appendChild(eventDetails);
