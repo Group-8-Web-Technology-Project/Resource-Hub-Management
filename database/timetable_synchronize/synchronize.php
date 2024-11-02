@@ -23,8 +23,8 @@ if($result->num_rows>0){
     $row = $result->fetch_assoc();
     $last_run = $row["LAST_RUN"];
     $datetime_next = date("Y-m-d h:i:s", strtotime('+30 minutes', strtotime($last_run)));
-
-    if($datetime_now>=$datetime_next){
+    
+    if((strtotime($datetime_now) - strtotime($datetime_next)) >= 1800){
         traverse_Table($table_start_letter, $table_start_number, $table_end);
 
         $set_last_run = "UPDATE script_delay SET LAST_RUN = '$datetime_now' WHERE ID = '0'";
