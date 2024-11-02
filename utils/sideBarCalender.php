@@ -41,20 +41,77 @@
 
 $events = [
     [
-        "title" => "Meeting with Team",
-        "start" => "2024-10-18T10:00:00", // Combined date and time
-        "end" => "2024-10-18T13:00:00",   // Combined date and time
+        'title' => 'Meeting with Team',
+        'start' => '2024-11-02T10:00:00',
+        'end' => '2024-11-02T13:00:00',
+        'extendedProps' => [
+            'resourceName' => 'CSA',
+            'isRecurring' => 1,
+            'fromTimetable' => 1
+        ],
     ],
     [
-        "title" => "Lunch with Client",
-        "start" => "2024-10-19T13:00:00", 
-        "end" => "2024-10-19T14:00:00",  
+        'title' => 'Breakfast with Team',
+        'start' => '2024-11-02T10:00:00',
+        'end' => '2024-11-02T13:00:00',
+        'extendedProps' => [
+            'resourceName' => 'CSA',
+            'isRecurring' => 0,
+            'fromTimetable' => 1
+        ],
     ],
     [
-        "title" => "Project Deadline",
-        "start" => "2024-10-20T09:00:00", 
+        'title' => 'Dancing with Team',
+        'start' => '2024-11-02T10:00:00',
+        'end' => '2024-11-02T13:00:00',
+        'extendedProps' => [
+            'resourceName' => 'CSA',
+            'isRecurring' => 0,
+            'fromTimetable' => 0
+        ],
+    ],
+    [
+        'title' => 'Lunch with Client',
+        'start' => '2024-10-31T13:00:00',
+        'end' => '2024-10-31T15:30:00',
+        'extendedProps' => [
+            'resourceName' => 'CUL - 1',
+            'isRecurring' => 0,
+            'fromTimetable' => 1
+        ],
+    ],
+    [
+        'title' => 'Project Deadline',
+        'start' => '2024-10-30T09:00:00',
+        'end' => '2024-10-30T11:00:00',
+        'extendedProps' => [
+            'resourceName' => 'CSL - 1 & 2',
+            'isRecurring' => 0,
+            'fromTimetable' => 1
+        ],
+    ],
+    [
+        'title' => 'Project Dora',
+        'start' => '2024-10-29T10:00:00',
+        'end' => '2024-10-29T13:00:00',
+        'extendedProps' => [
+            'resourceName' => 'CSL - 3 & 4',
+            'isRecurring' => 0,
+            'fromTimetable' => 0
+        ],
+    ],
+    [
+        'title' => 'Project Deadline',
+        'start' => '2024-10-31T09:00:00',
+        'end' => '2024-10-31T11:00:00',
+        'extendedProps' => [
+            'resourceName' => 'CSL - 1 & 2',
+            'isRecurring' => 1,
+            'fromTimetable' => 0
+        ],
     ],
 ];
+
 
 // Store the events array in the session
 $_SESSION['events'] = $events;
@@ -154,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 month === new Date().getMonth() &&
                 year === new Date().getFullYear()
             ) {
-                dayCell.classList.add("bg-blue-400", "dark:bg-blue-600", "text-white", "font-bold");
+                dayCell.classList.add("bg-blue-400", "dark:bg-blue-400", "text-white", "font-bold");
             }
 
             calendar.appendChild(dayCell);
