@@ -565,7 +565,7 @@ function loadRequestInfo(id) {
             document.getElementById("priority").value = priority;
             document.getElementById("event_type").value = data.EVENT_TYPE;
             document.getElementById("conduct_by").value = data.CONDUCT_BY;
-            document.getElementById("recurring").value = data.IS_RECURRING == 0 ? "No" : "Yes";
+            document.getElementById("recurring").value = data.RECURRING == 0 ? "No" : "Yes";
             document.getElementById("user_type").value = data.USER_TYPE;
             document.getElementById("resource_type").value = data.RESOURCE_TYPE;
             document.getElementById("building_name").value = data.BUILDING_NAME;
