@@ -354,7 +354,7 @@ function pushData_Occupied($resource, $eventID, $timeSlotID, $active){
         $conn->query($query_update);
     }
     else{
-        $query = "INSERT INTO occupied (EVENT_ID, RESOURCE_ID, TIME_SLOT_ID, ACTIVE, OPTIONAL_DETAILS) VALUES ('$eventID', '$resource_id', '$timeSlotID', $active, 'From timetable')";
+        $query = "INSERT INTO occupied (EVENT_ID, RESOURCE_ID, TIME_SLOT_ID, ACTIVE, OPTIONAL_DETAILS) VALUES ('$eventID', '$resource_id', '$timeSlotID', '$active', 'From timetable')";
         $conn->query($query);                                           echo"<script>console.log('Resource occupied: $resource for event id-$eventID');</script>";
 
         $query_check = "SELECT * FROM occupied WHERE EVENT_ID = '$eventID' AND RESOURCE_ID = '$resource_id' AND TIME_SLOT_ID = '$timeSlotID'";
@@ -382,11 +382,9 @@ function delete_old_Records(){
     $query = "DELETE FROM occupied WHERE OPTIONAL_DETAILS = 'From timetable'";
     $conn->query($query);
 
-    $query = "DELETE FROM time_slot WHERE OPTIONAL_DETAILS = 'From timetable'";
-    $conn->query($query);
-
     $query = "DELETE FROM events WHERE OPTIONAL_DETAILS = 'From timetable'";
     $conn->query($query);
+
 }
     
 ?>
