@@ -45,7 +45,7 @@ $events = [
         'start' => '2024-11-02T10:00:00',
         'end' => '2024-11-02T13:00:00',
         'extendedProps' => [
-            'resourceName' => 'CSA',
+            'resourceName' => 'CSL - 1 & 2',
             'isRecurring' => 1,
             'fromTimetable' => 1
         ],
@@ -55,7 +55,7 @@ $events = [
         'start' => '2024-11-02T10:00:00',
         'end' => '2024-11-02T13:00:00',
         'extendedProps' => [
-            'resourceName' => 'CSA',
+            'resourceName' => 'CSL - 1 & 2',
             'isRecurring' => 0,
             'fromTimetable' => 1
         ],
