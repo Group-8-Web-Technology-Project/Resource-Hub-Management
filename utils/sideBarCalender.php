@@ -39,22 +39,8 @@
     </div>
     <?php
 
-$events = [
-    [
-        "title" => "Meeting with Team",
-        "start" => "2024-10-18T10:00:00", // Combined date and time
-        "end" => "2024-10-18T13:00:00",   // Combined date and time
-    ],
-    [
-        "title" => "Lunch with Client",
-        "start" => "2024-10-19T13:00:00", 
-        "end" => "2024-10-19T14:00:00",  
-    ],
-    [
-        "title" => "Project Deadline",
-        "start" => "2024-10-20T09:00:00", 
-    ],
-];
+$events = [];
+require_once "../../controllers/calendar/calendar.php";
 
 // Store the events array in the session
 $_SESSION['events'] = $events;
