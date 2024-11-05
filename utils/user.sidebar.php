@@ -85,7 +85,7 @@
 					</a>
                 </li>
             </ul>
-            <div class="mt-8">
+            <div class="my-6">
                 <?php 
                 include(__DIR__ . "/sideBarCalender.php");
                 ?>
