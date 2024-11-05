@@ -9,11 +9,11 @@
 <body class="bg-gray-100 dark:bg-gray-800">
     <div class="bg-gray-200 dark:bg-gray-900 shadow-lg rounded-lg p-3 w-full">
         <div class="flex justify-between items-center mb-4">
-            <button id="prev" class="text-black dark:text-white px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+            <button id="prev" class="text-black dark:text-white px-4 py-2 rounded-md hover:bg-gray-300 dark:hover:bg-gray-700">
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
             <h2 id="monthYear" class="text-lg font-bold dark:text-white"></h2>
-            <button id="next" class="text-black dark:text-white px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+            <button id="next" class="text-black dark:text-white px-4 py-2 rounded-md hover:bg-gray-300 dark:hover:bg-gray-700">
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
@@ -29,14 +29,6 @@
         <div id="calendar" class="grid grid-cols-7 gap-1.5"></div>
     </div>
 
-    <!-- Modal for event details -->
-    <div id="eventModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center hidden">
-        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-1/2">
-            <h2 id="eventTitle" class="text-xl font-bold mb-4"></h2>
-            <p id="eventDetails" class="mb-4"></p>
-            <button id="closeModal" class="px-4 py-2 bg-blue-500 text-white rounded-md">Close</button>
-        </div>
-    </div>
     <?php
 
 $events = [
@@ -131,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Function to format date as YYYY-MM-DD
     function formatDate(date) {
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+        const month = String(date.getMonth() + 1).padStart(2, '0'); 
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     }
@@ -166,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Add blank days for the first row if the month doesn't start on Sunday
         for (let i = 0; i < firstDayOfMonth; i++) {
             const blankCell = document.createElement("div");
-            blankCell.classList.add("h-7"); // Height for blank cells
+            blankCell.classList.add("h-7"); 
             calendar.appendChild(blankCell);
         }
 
@@ -232,8 +224,5 @@ document.addEventListener("DOMContentLoaded", function () {
     renderCalendar();
 });
 </script>
-
-
-
 </body>
 </html>
