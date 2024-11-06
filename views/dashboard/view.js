@@ -36,7 +36,13 @@ function saveNotice() {
     formData.append('noticeTitle', title);
     formData.append('noticeMessage', description);
     formData.append('noticeDate', date);
-    formData.append('verifyNC', isComplaint ? 'on' : 'off'); 
+    if (isComplaint) {
+        formData.append('verifyNC', 'on');
+    }
+    
+    for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+    }
 
     
     fetch('view.php', {

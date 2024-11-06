@@ -1,6 +1,7 @@
 <?php
 require_once "../../utils/header.php";
 require_once ("../../utils/user.sidebar.php");
+// require_once "../../database/timetable_synchronize/synchronize.php";
 include("../../database/connection.php");
 
 
@@ -72,7 +73,6 @@ $total_requests = $approve_count + $pending_count + $declined_count;
                     <div class="cards-wrapper">
 					<div></div>
                         <?php
-                        $conn = mysqli_connect("localhost", "csc210user", "CSC210!", "group8");
                         if (!$conn) {
                             die("Connection failed: " . mysqli_connect_error());
                         }
@@ -181,8 +181,8 @@ $total_requests = $approve_count + $pending_count + $declined_count;
                                     if($row['status'] == 'complaint'){
                                         echo '<p class="text-red-500"><small>' . htmlspecialchars($row['status']) . '</small></p>';
                                     }
-								echo '<a href="edit_notice.php?id=' . $row['id'] . '">Edit</a> | ';
-								echo '<a href="delete_notice.php?id=' . $row['id'] . '" onclick="return confirm(\'Are you sure you want to delete this notice?\')">Delete</a>';
+								echo '<a href="edit_notice.php?id=' . $row['id'] . '">Edit</a>  ';
+								//echo '<a href="delete_notice.php?id=' . $row['id'] . '" onclick="return confirm(\'Are you sure you want to delete this notice?\')">Delete</a>';
                                 echo '</div>';
                             }
                         } else {
@@ -223,6 +223,39 @@ $total_requests = $approve_count + $pending_count + $declined_count;
                     </form>   
                 </div>
             </div>
+            <?php
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    header('Content-Type: application/json');
+
+                    error_log(print_r($_POST, true));
+
+                    if (isset($_POST['noticeTitle']) && isset($_POST['noticeMessage']) && isset($_POST['noticeDate'])) {
+                        $noticeTitle = $_POST['noticeTitle'];
+                        $noticeMessage = $_POST['noticeMessage'];
+                        $noticeDate = $_POST['noticeDate'];
+                        $noticeType = isset($_POST['verifyNC']) && $_POST['verifyNC'] === 'on' ? 'complaint' : 'notice';
+
+                        error_log("Notice Type: " . $noticeType);
+
+                        $noticeTitle = mysqli_real_escape_string($conn, $noticeTitle);
+                        $noticeMessage = mysqli_real_escape_string($conn, $noticeMessage);
+                        $noticeType = mysqli_real_escape_string($conn, $noticeType);
+                        $noticeDate = mysqli_real_escape_string($conn, $noticeDate);
+                
+                        $sql = "INSERT INTO announcement (topic, message, status, date) VALUES ('$noticeTitle', '$noticeMessage', '$noticeType', '$noticeDate')";
+                        
+                        if (mysqli_query($conn, $sql)) {
+                            echo json_encode(['success' => true]);
+                        } else {
+                            echo json_encode(['success' => false, 'message' => mysqli_error($conn)]);
+                        }
+                    } else {
+                        echo json_encode(['success' => false, 'message' => 'Please fill in all fields.']);
+                    }
+                    exit;
+                }
+                
+            ?>
 			
 			<div class="content-wrapper">
 				<center><h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">Requests</h2></center>
@@ -388,7 +421,7 @@ $total_requests = $approve_count + $pending_count + $declined_count;
 			</script>
 
 			<link rel='stylesheet' href='barchart.css'>
-            <div class='content-wrapper'>
+            <div class='contents-wrapper'>
                 <center><h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">Hall Overview</h2></center>
                 <?php
                     $resourceQuery = "SELECT DISTINCT RESOURCE_NAME, SEATING FROM resource";
@@ -511,32 +544,5 @@ $total_requests = $approve_count + $pending_count + $declined_count;
 </body>
 
 
-<?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        header('Content-Type: application/json');
-        if (isset($_POST['noticeTitle']) && isset($_POST['noticeMessage']) && isset($_POST['noticeDate'])) {
-            $noticeTitle = $_POST['noticeTitle'];
-            $noticeMessage = $_POST['noticeMessage'];
-            $noticeDate = $_POST['noticeDate'];
-            $noticeType = !empty($_POST['verifyNC']) ? 'complaint' : 'notice';
 
-            $noticeTitle = mysqli_real_escape_string($conn, $noticeTitle);
-            $noticeMessage = mysqli_real_escape_string($conn, $noticeMessage);
-            $noticeType = mysqli_real_escape_string($conn, $noticeType);
-            $noticeDate = mysqli_real_escape_string($conn, $noticeDate);
-    
-            $sql = "INSERT INTO announcement (topic, message, status, date) VALUES ('$noticeTitle', '$noticeMessage', '$noticeType', '$noticeDate')";
-            
-            if (mysqli_query($conn, $sql)) {
-                echo json_encode(['success' => true]);
-            } else {
-                echo json_encode(['success' => false, 'message' => mysqli_error($conn)]);
-            }
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Please fill in all fields.']);
-        }
-        exit;
-    }
-    
-?>
 

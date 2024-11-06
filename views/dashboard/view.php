@@ -1,7 +1,7 @@
 <?php
 require_once "../../utils/header.php";
 require_once "../../utils/admin.php";
-//require_once "../../database/timetable_synchronize/synchronize.php";
+// require_once "../../database/timetable_synchronize/synchronize.php";
 include("../../database/connection.php");
 
 $approve_request = "SELECT COUNT(*) AS count FROM request WHERE REQUEST_APPROVED = 1";
@@ -219,8 +219,42 @@ $total_requests = $approve_count + $pending_count + $declined_count;
                     </form>   
                 </div>
             </div>
-			
-			<div class="content-wrapper">
+			<?php
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    header('Content-Type: application/json');
+                    if (isset($_POST['noticeTitle']) && isset($_POST['noticeMessage']) && isset($_POST['noticeDate'])) {
+                        $noticeTitle = $_POST['noticeTitle'];
+                        $noticeMessage = $_POST['noticeMessage'];
+                        $noticeDate = $_POST['noticeDate'];
+                        $noticeType;
+                        if(empty($_POST['verifyNC'])){
+                            $noticeType = 'notice';
+                        }
+                        else{
+                            $noticeType = 'complaint';
+                        }
+
+                        $noticeTitle = mysqli_real_escape_string($conn, $noticeTitle);
+                        $noticeMessage = mysqli_real_escape_string($conn, $noticeMessage);
+                        $noticeType = mysqli_real_escape_string($conn, $noticeType);
+                        $noticeDate = mysqli_real_escape_string($conn, $noticeDate);
+                
+                        $sql = "INSERT INTO announcement (topic, message, status, date) VALUES ('$noticeTitle', '$noticeMessage', '$noticeType', '$noticeDate')";
+                        
+                        if (mysqli_query($conn, $sql)) {
+                            echo json_encode(['success' => true]);
+                        } else {
+                            echo json_encode(['success' => false, 'message' => mysqli_error($conn)]);
+                        }
+                    } else {
+                        echo json_encode(['success' => false, 'message' => 'Please fill in all fields.']);
+                    }
+                    exit;
+                }
+                
+            ?>
+
+			<div class="contents-wrapper">
 				<center><h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">Requests</h2></center>
 					<div>
 						<?php
@@ -384,7 +418,7 @@ $total_requests = $approve_count + $pending_count + $declined_count;
 			</script>
 
 			<link rel='stylesheet' href='barchart.css'>
-            <div class='content-wrapper'>
+            <div class='contents-wrapper'>
                 <center><h2 class="text-2xl font-semibold text-center text-gray-800 mb-4">Hall Overview</h2></center>
                 <?php
                     $resourceQuery = "SELECT DISTINCT RESOURCE_NAME, SEATING FROM resource";
@@ -506,33 +540,4 @@ $total_requests = $approve_count + $pending_count + $declined_count;
     </div> 
 </body>
 
-
-<?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        header('Content-Type: application/json');
-        if (isset($_POST['noticeTitle']) && isset($_POST['noticeMessage']) && isset($_POST['noticeDate'])) {
-            $noticeTitle = $_POST['noticeTitle'];
-            $noticeMessage = $_POST['noticeMessage'];
-            $noticeDate = $_POST['noticeDate'];
-            $noticeType = !empty($_POST['verifyNC']) ? 'complaint' : 'notice';
-
-            $noticeTitle = mysqli_real_escape_string($conn, $noticeTitle);
-            $noticeMessage = mysqli_real_escape_string($conn, $noticeMessage);
-            $noticeType = mysqli_real_escape_string($conn, $noticeType);
-            $noticeDate = mysqli_real_escape_string($conn, $noticeDate);
-    
-            $sql = "INSERT INTO announcement (topic, message, status, date) VALUES ('$noticeTitle', '$noticeMessage', '$noticeType', '$noticeDate')";
-            
-            if (mysqli_query($conn, $sql)) {
-                echo json_encode(['success' => true]);
-            } else {
-                echo json_encode(['success' => false, 'message' => mysqli_error($conn)]);
-            }
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Please fill in all fields.']);
-        }
-        exit;
-    }
-    
-?>
 
