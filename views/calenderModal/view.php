@@ -29,17 +29,36 @@ $currentPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : './.
     <!-- Dark mode toggle and close button -->
     <div class="flex p-2 justify-end mr-5">
         <button type="button" id="toggle-button" class="text-gray-600 w-9 h-9 bg-white border border-gray-500 hover:bg-gray-200 rounded-lg mr-3 dark:bg-gray-800 dark:text-gray-400">
-            <i id="toggle-icon" class="fas fa-moon"></i>
+            
         </button>
-        <button onclick="closePopup()" type="button" class="text-gray-600 bg-white border border-gray-500 rounded-lg hover:bg-gray-200 w-9 h-9 inline-flex items-center dark:bg-gray-800 dark:hover:bg-gray-600 dark:text-gray-400">
+        <button onclick="closePopup()" type="button" class="text-gray-600 bg-white border border-gray-500 rounded-lg hover:bg-gray-200 w-9 h-9 inline-flex items-center dark:bg-gray-800 dark:hover:bg-gray-600 dark:text-gray-200">
             <svg class="w-6 h-6 ml-1" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
         </button>
     </div>
 
+    <div class="flex justify-start ml-5 gap-5">
+        <div class=" flex items-center">
+            <span class="box-purple w-4 h-4 inline-block mr-2 rounded"></span>
+            <span class="text-color text-gray-900 text-xs dark:text-gray-200">Recurring (Timetable events)</span>
+        </div>
+        <div class="flex items-center">
+            <span class="box-green w-4 h-4 inline-block mr-2 rounded"></span>
+            <span class="text-color text-gray-900 text-xs dark:text-white">Occasional (Timetable events)</span>
+        </div>
+        <div class="flex items-center">
+            <span class="box-red w-4 h-4 inline-block mr-2 rounded "></span>
+            <span class="text-color text-gray-900 text-xs dark:text-white">Recurring (Special events)</span>
+        </div>
+        <div class="flex items-center">
+            <span class="box-yellow w-4 h-4 inline-block mr-2 rounded"></span>
+            <span class="text-color text-gray-900 text-xs dark:text-white">Occasional (Special events)</span>
+        </div>
+    </div>
+
     <!-- Calendar display -->
-    <div id="calendar" class="bg-white p-2 z-50 dark:bg-gray-900 dark:text-white max-w-full sm:max-w-lg md:max-w-4xl md:mx-8 lg:max-w-screen-2xl lg:mx-16 mx-auto "></div>
+    <div id="calendar" class="bg-white my-4 p-2 z-50 dark:bg-gray-900 dark:text-white max-w-full sm:max-w-lg md:max-w-4xl md:mx-8 lg:max-w-screen-2xl lg:mx-16 mx-auto "></div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -51,14 +70,15 @@ $currentPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : './.
             tooltip.className = 'event-tooltip bg-gray-800 text-white p-2 rounded shadow-lg hidden';
             document.body.appendChild(tooltip);
             
-            if (localStorage.getItem('color-theme') === 'dark' || 
-                (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+                    '(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark');
-                isDarkMode = true;
-            }
+                toggleButton.innerHTML = `<i class="fa-solid fa-sun fa-xl"><i/>`
+            } else {
+                document.documentElement.classList.remove('dark');
+                toggleButton.innerHTML = `<i class="fa-solid fa-moon fa-xl"><i/>`
 
-            toggleButton.querySelector('i').classList.toggle("fa-sun", isDarkMode);
-            toggleButton.querySelector('i').classList.toggle("fa-moon", !isDarkMode);
+            }
 
             const events = <?php echo json_encode($events); ?>;
             const weekStartDate = "<?php echo $weekStartDate; ?>";
@@ -113,27 +133,14 @@ $currentPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : './.
                     tooltip.classList.add('hidden');
                 },
                 eventDidMount: function(info) {
-                    // Clear the default content of the event element
-                    info.el.innerHTML = ''; // This clears out any default content
 
-                    // Create a div to hold event details
+                    info.el.innerHTML = ''; 
                     const eventDetails = document.createElement('div');
-                    
-                    // Add event title
-                    //eventDetails.innerHTML = info.event.title;
 
-                    // Optionally, add other event properties
                     if (info.event.extendedProps.resourceName) {
                         eventDetails.innerHTML += `<strong>${info.event.extendedProps.resourceName}</strong>`;
                     }
                     //eventDetails.innerHTML += `<br>${info.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${info.event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-                    
-                    // Style the event details as needed
-                    eventDetails.style.fontSize = '1em'; // Adjust font size
-                    eventDetails.style.color = 'white'; // Set text color
-                    eventDetails.style.padding = '5px'; // Add padding
-                    eventDetails.style.whiteSpace = 'nowrap'; // Prevent text wrapping
-                    eventDetails.style.textOverflow = 'hidden'; // Allow text to overflow if needed
 
                     // Append the details to the event element
                     info.el.appendChild(eventDetails);
@@ -152,18 +159,23 @@ $currentPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : './.
                 } else if (info.event.extendedProps.isRecurring == 1 && info.event.extendedProps.fromTimetable == 0) {
                     info.el.style.backgroundColor = darkMode ? "#ff6b6b" : "#ff9e9e"; 
                 } else if (info.event.extendedProps.isRecurring == 0 && info.event.extendedProps.fromTimetable == 1) {
-                    info.el.style.backgroundColor = darkMode ? "#4ecdc4" : "#a2e8e4"; 
+                    info.el.style.backgroundColor = darkMode ? "#009900" : "#a2e8e4"; 
                 } else if (info.event.extendedProps.isRecurring == 0 && info.event.extendedProps.fromTimetable == 0) {
-                    info.el.style.backgroundColor = darkMode ? "#feca57" : "#ffdd96"; 
+                    info.el.style.backgroundColor = darkMode ? "#e49c01" : "#ffdd96"; 
                 }
             }
 
             toggleButton.addEventListener("click", () => {
-                document.documentElement.classList.toggle('dark');
-                const darkModeEnabled = document.documentElement.classList.contains('dark');
-                localStorage.setItem('color-theme', darkModeEnabled ? 'dark' : 'light');
-                toggleButton.querySelector('i').classList.toggle("fa-sun", darkModeEnabled);
-                toggleButton.querySelector('i').classList.toggle("fa-moon", !darkModeEnabled);
+                let htmlClasses = document.querySelector('html').classList;
+                if (htmlClasses.contains('dark')) {
+                    htmlClasses.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                    toggleButton.innerHTML = `<i class="fa-solid fa-moon fa-xl"></i>`;
+                } else {
+                    htmlClasses.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                    toggleButton.innerHTML = `<i class="fa-solid fa-sun fa-xl"></i>`;
+                }
             });
 
             document.cookie = "referringPage=<?php echo $currentPage; ?>; path=/";
@@ -220,6 +232,14 @@ $currentPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : './.
         .dark .fc-timegrid-slot {
             background-color: #2d3748;
         }
+        .fc-event {
+            font-size: 1rem;
+            color: white;
+            padding: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
         .dark .fc-event {
             background-color: #333333;
@@ -235,7 +255,14 @@ $currentPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : './.
 
         .dark .bg-white {
             background-color: #2d3748;
+        } 
+        .dark .text-color{
+            color: white;
         }
+        .box-purple { background-color: #6c63ff; }
+        .box-red { background-color: #ff6b6b; }
+        .box-green { background-color: #009900; }
+        .box-yellow { background-color: #e49c01; }
     </style>
 </body>
 </html>
