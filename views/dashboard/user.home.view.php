@@ -72,7 +72,7 @@ $total_requests = $approve_count + $pending_count + $declined_count;
                     <div class="cards-wrapper">
 					<div></div>
                         <?php
-                        $conn = mysqli_connect("localhost", "root", "", "resourcehub");
+                        $conn = mysqli_connect("localhost", "csc210user", "CSC210!", "group8");
                         if (!$conn) {
                             die("Connection failed: " . mysqli_connect_error());
                         }
