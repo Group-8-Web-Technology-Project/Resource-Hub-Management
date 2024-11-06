@@ -125,7 +125,7 @@ $confirm_html="
             <td align='center' valign='top' style='padding: 36px 10px 10px 10px;'>
               <div >
                 <center>
-                <a href='localhost/Resource-Hub-Management/' target='_blank' style='display: inline-block;'>
+                <a href='localhost/group8/Resource-Hub-Management/' target='_blank' style='display: inline-block;'>
                     <img src='https://github.com/Group-8-Web-Technology-Project/Resource-Hub-Management/blob/main/assets/icons/logo-no-background.png?raw=true' alt='Logo' border='0' width='70' style='display: block; width: 70px; max-width: 70px; min-width: 70px;'>
                   </a>
                 </center>
@@ -195,7 +195,7 @@ $confirm_html="
                     <table border='0' cellpadding='0' cellspacing='0'>
                       <tr>
                         <td align='center' bgcolor='#46d9a9' style='border-radius: 6px;'>
-                          <a href='localhost/Resource-Hub-Management/controllers/login/verify.php?code=$code' target='_blank' style='display: inline-block; padding: 16px 36px; font-family: \"Source Sans Pro\", Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;color: white !important;'>Confirm the Email</a>
+                          <a href='localhost/group8/Resource-Hub-Management/controllers/login/verify.php?code=$code' target='_blank' style='display: inline-block; padding: 16px 36px; font-family: \"Source Sans Pro\", Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;color: white !important;'>Confirm the Email</a>
                         </td>
                       </tr>
                     </table>

@@ -125,7 +125,7 @@ $approve_html="
             <td align='center' valign='top' style='padding: 36px 10px 10px 10px;'>
               <div >
                 <center>
-                <a href='localhost/Resource-Hub-Management/' target='_blank' style='display: inline-block;'>
+                <a href='localhost/group8/Resource-Hub-Management/' target='_blank' style='display: inline-block;'>
                     <img src='https://github.com/Group-8-Web-Technology-Project/Resource-Hub-Management/blob/main/assets/icons/logo-no-background.png?raw=true' alt='Logo' border='0' width='70' style='display: block; width: 70px; max-width: 70px; min-width: 70px;'>
                   </a>
                 </center>
