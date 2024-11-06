@@ -22,7 +22,7 @@ function createMailInstance(){
         $mail->isHTML(true);
        
 		$mail->setFrom('2021csc048@univ.jfn.ac.lk', 'ResourceHub');
-		$mail->AddReplyTo('2021csc048@univ.jfn.ac.lk', 'Do not reply');
+		$mail->addReplyTo('2021csc048@univ.jfn.ac.lk', 'Do not reply');
     }
     catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
