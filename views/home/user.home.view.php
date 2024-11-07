@@ -283,6 +283,15 @@
                                         placeholder="Write the Purpose and Describe the Event to be Conduct"></textarea>
 
                                 </div>
+<!-- ---------------------------------------------------------------------------- -->
+                                <div>
+                                    <label for="flyer"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Upload Flyer</label>
+                                    <input type="file" name="flyer" id="flyer"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                        accept=".jpg,.jpeg,.png,.pdf" required>
+                                </div>
+<!-- ----------------------------------------------------------------------------- -->
 
                                 <button id="submit_btn_allocate" onclick="requestAllocation()"
                                     class="w-full text-white bg-gradient-to-r mt-8 from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
@@ -452,6 +461,12 @@ function search(page = 1) {
                         </span>
                 	</td>
                 	
+// -------------------------------------------------------------------------
+                    <td class="px-6 py-4">
+                        ${request.flyer ? `<a href="${request.flyer}" class="font-medium text-blue-400 dark:text-blue-500 hover:underline" target="_blank">View Flyer</a>` : "No Flyer"}
+                    </td>
+// ------------------------------------------------------------------------
+
                 	<td class="px-6 py-4 text-right">
                     	${request.REQUEST_APPROVED==1 ? `<a href="#" onclick="loadRequestInfo(<?php echo "'".$_SERVER['SERVER_NAME']."'" ?>,${request.REQUEST_ID})" class="font-medium text-green-400 dark:text-green-500 hover:underline">Download</a>`:""}
                 	</td>
