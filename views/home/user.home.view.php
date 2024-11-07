@@ -125,7 +125,7 @@
                 </button>
                 <div class="px-6 py-6 lg:px-8">
                     <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Allocation Request</h3>
-                    <form class="" action="#" id="allocateResourceForm">
+                    <form class="" action="#" id="allocateResourceForm" enctype="multipart/form-data">
                         <div class="grid lg:grid-cols-2 gap-3">
                             <div class="space-y-6">
                                 <div>
@@ -161,7 +161,7 @@
                                         Name</label>
                                     <input type="text" name="search_resource" id="search_resource"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                        placeholder="Search Event" required>
+                                        placeholder="Search Resource" required>
                                 </div>
 
                                 <input type="hidden" id="resource_id_m" name="resource_id">
@@ -283,13 +283,13 @@
                                         placeholder="Write the Purpose and Describe the Event to be Conduct"></textarea>
 
                                 </div>
-<!-- ---------------------------------------------------------------------------- -->
+<!-- ----------------------------------------------------------------------------Flyer -->
                                 <div>
                                     <label for="flyer"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Upload Flyer</label>
                                     <input type="file" name="flyer" id="flyer"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                        accept=".jpg,.jpeg,.png,.pdf" required>
+                                        accept=".jpg,.jpeg,.png">
                                 </div>
 <!-- ----------------------------------------------------------------------------- -->
 
@@ -461,11 +461,9 @@ function search(page = 1) {
                         </span>
                 	</td>
                 	
-// -------------------------------------------------------------------------
                     <td class="px-6 py-4">
-                        ${request.flyer ? `<a href="${request.flyer}" class="font-medium text-blue-400 dark:text-blue-500 hover:underline" target="_blank">View Flyer</a>` : "No Flyer"}
+                        ${request.EVENT_FLYER ? `<a href="${request.EVENT_FLYER}" class="font-medium text-blue-400 dark:text-blue-500 hover:underline" target="_blank">View Flyer</a>` : "No Flyer"}
                     </td>
-// ------------------------------------------------------------------------
 
                 	<td class="px-6 py-4 text-right">
                     	${request.REQUEST_APPROVED==1 ? `<a href="#" onclick="loadRequestInfo(<?php echo "'".$_SERVER['SERVER_NAME']."'" ?>,${request.REQUEST_ID})" class="font-medium text-green-400 dark:text-green-500 hover:underline">Download</a>`:""}
@@ -752,7 +750,11 @@ function requestAllocation() {
         formData.set("is_recurring",0)
     }
 
-    axios.post("../../controllers/request/request.php?request_add",formData)
+    axios.post("../../controllers/request/request.php?request_add", formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
     .then(res=>{
         if(res.data=="success"){
             new Notify({
@@ -784,10 +786,40 @@ function requestAllocation() {
 
             addModal.hide();
             search();
-        }else{
+        }else if(res.data=="false"){
             new Notify({
                 title: 'Error',
                 text: "Request Can't be Placed",
+                effect: 'slide',
+                status: 'error',
+                speed: 300,
+                autoclose: true,
+                autotimeout: 3000
+            })
+        }else if(res.data=="false-not_an_image"){
+            new Notify({
+                title: 'Error',
+                text: "Flyer is not an image",
+                effect: 'slide',
+                status: 'error',
+                speed: 300,
+                autoclose: true,
+                autotimeout: 3000
+            })
+        }else if(res.data=="false-file_format"){
+            new Notify({
+                title: 'Error',
+                text: "Only JPG, JPEG, and PNG files are allowed",
+                effect: 'slide',
+                status: 'error',
+                speed: 300,
+                autoclose: true,
+                autotimeout: 3000
+            })
+        }else if(res.data=="false-upload_error"){
+            new Notify({
+                title: 'Error',
+                text: "Couldn't upload the flyer",
                 effect: 'slide',
                 status: 'error',
                 speed: 300,
