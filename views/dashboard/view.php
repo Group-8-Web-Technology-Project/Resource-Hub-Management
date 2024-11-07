@@ -56,9 +56,235 @@ $total_requests = $approve_count + $pending_count + $declined_count;
 <script src="../../assets/lib/simple-notify.min.js"></script>
 <script language="javascript" type="text/javascript" src="/path/to/file/src/profile-image.js"></script>
 <link rel="stylesheet" href="./dashboard_view.css">
-<link rel="stylesheet "href='./tableStyle.css'>
 <style>
-    
+    .table-container {
+	    margin: 20px 0;
+	    padding: 20px;
+	    background-color: #ffffff;
+	    border-radius: 10px;
+	    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+	}
+
+	@media (max-width: 768px) {
+		.table-container {
+			padding: 15px;
+		}
+	}
+
+	.search-filter {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		margin-top: 20px;
+		margin-bottom: 20px;
+		padding: 15px;
+		background-color: #f1f1f1;
+		border-radius: 8px;
+		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+	}
+
+	.search-filter input[type="search"],
+	.search-filter select,
+	.search-filter input[type="date"] {
+		padding: 10px 15px;
+		font-size: 16px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		margin: 5px 0;
+		width: 32%;
+		box-sizing: border-box;
+	}
+
+	.search-filter input[type="search"]:focus,
+	.search-filter select:focus,
+	.search-filter input[type="date"]:focus {
+		outline: none;
+		border-color: #999;
+		box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	}
+
+	.contents-wrapper {
+		margin: 5px auto;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		padding: 30px;
+		max-width: 1200px;
+		background-color: #f9f9f9;
+		border-radius: 10px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		line-height: 1.6;
+		font-family: 'Arial', sans-serif;
+		color: #333;
+	}
+
+	.filter-table {
+		width: 100%;
+		margin-top: 30px;
+		overflow-x: auto;
+		background-color: #fff;
+		border-radius: 10px;
+		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+	}
+
+	.filter-table table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 16px;
+	}
+
+	.filter-table th,
+	.filter-table td {
+		padding: 14px 18px;
+		text-align: left;
+		border-bottom: 1px solid #e0e0e0;
+	}
+
+	.filter-table th {
+		background-color: #f0f0f0;
+		color: #444;
+		font-weight: bold;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.filter-table tr:hover {
+		background-color: #f7f7f7;
+	}
+
+	.filter-table tbody tr:last-child td {
+		border-bottom: none;
+	}
+
+	@media (max-width: 768px) {
+		.search-filter input[type="search"],
+		.search-filter select,
+		.search-filter input[type="date"] {
+			width: 100%;
+			margin-bottom: 10px;
+		}
+
+		.filter-table th,
+		.filter-table td {
+			padding: 12px;
+			font-size: 14px;
+		}
+
+		.content-wrapper {
+			padding: 20px;
+		}
+	}
+
+	.paginationRight {
+		margin-top: 15px;
+		margin-left: 5px;
+		text-align: right;
+	}
+
+	.paginationRight button {
+		padding: 10px 15px;
+		margin: 5px 5px;
+		font-size: 16px;
+		background-color: #007bff;
+		color: #fff;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+
+	.paginationRight button:hover {
+		background-color: #0f0d8c;
+	}
+
+	.paginationRight button:disabled {
+		background-color: #ddd;
+		cursor: not-allowed;
+	}
+	.timeline {
+		position: relative;
+		margin: 20px 0;
+		padding: 10px;
+	}
+
+	.timeline-date {
+		margin: 40px 0 10px;
+		text-align: center;
+	}
+
+	.timeline-item {
+		margin: 10px 0;
+		position: relative;
+	}
+
+	.timeline-content {
+		position: relative;
+		background: #fff;
+		padding: 15px;
+		border-radius: 8px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		margin-left: 20px; 
+		width: 300px; 
+	}
+
+	.date-title {
+		background-color: #f0f0f0;
+		padding: 5px 10px;
+		border-radius: 5px;
+		display: inline-block;
+	}
+
+	.alternate-side {
+		margin-left: 0; 
+		margin-right: 20px; 
+		float: right;
+	}
+
+	.pagination {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		margin: 20px 0;
+	}
+
+	.pagination-btn {
+		background-color: #007bff;
+		color: #fff;
+		border: none;
+		padding: 8px 16px;
+		font-size: 14px;
+		border-radius: 5px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		transition: background-color 0.3s ease;
+	}
+
+	.pagination-btn.left {
+		order: -1; /* Positions the "Prev" button on the left */
+	}
+
+	.pagination-btn.right {
+		order: 1; /* Positions the "Next" button on the right */
+	}
+
+	.pagination-btn i {
+		font-size: 12px;
+	}
+
+	.pagination-btn:disabled {
+		background-color: #ccc;
+		cursor: not-allowed;
+	}
+
+	.pagination-btn:not(:disabled):hover {
+		background-color: #0056b3;
+	}
+
+	.page-number {
+		font-size: 14px;
+		color: #333;
+	}
 </style>
 <body class="dark:bg-slate-900">
     <?php require_once "../../utils/sidebar.php"  ?>
