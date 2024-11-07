@@ -55,8 +55,8 @@ $total_requests = $approve_count + $pending_count + $declined_count;
 <link rel="stylesheet" href="../../assets/lib/simple-notify.min.css" />
 <script src="../../assets/lib/simple-notify.min.js"></script>
 <script language="javascript" type="text/javascript" src="/path/to/file/src/profile-image.js"></script>
-<link rel="stylesheet" href="dashboard_view.css">
-<link rel="stylesheet "href='tableStyle.css'>
+<link rel="stylesheet" href="./dashboard_view.css">
+<link rel="stylesheet "href='./tableStyle.css'>
 <style>
     
 </style>
