@@ -1,9 +1,9 @@
 <?php
 
 $host = "localhost";
-$user = "root";
-$password = "";
-$database = "resourcehub";
+$user = "csc210user";
+$password = "CSC210!";
+$database = "group8";
 
 $conn = new mysqli($host, $user, $password, $database);
 

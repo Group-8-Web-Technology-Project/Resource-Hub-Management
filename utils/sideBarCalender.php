@@ -37,13 +37,15 @@
             <button id="closeModal" class="px-4 py-2 bg-blue-500 text-white rounded-md">Close</button>
         </div>
     </div>
-    <?php
+  
+<?php
 
 $events = [];
 require_once "../../controllers/calendar/calendar.php";
-
+  
 // Store the events array in the session
 $_SESSION['events'] = $events;
+  
 ?>
 
 
@@ -140,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 month === new Date().getMonth() &&
                 year === new Date().getFullYear()
             ) {
-                dayCell.classList.add("bg-blue-400", "dark:bg-blue-600", "text-white", "font-bold");
+                dayCell.classList.add("bg-blue-400", "dark:bg-blue-400", "text-white", "font-bold");
             }
 
             calendar.appendChild(dayCell);
