@@ -296,9 +296,9 @@ if(isset($_GET["request_add"])){
 
     }
 
-
+    $decline_message = 'None';
     $request_message = addslashes($request_message);
-    $query = "INSERT INTO request (EVENT_ID,RESOURCE_ID,TIME_SLOT_ID,REQUEST_DATE,REQUEST_APPROVED,USER_ID,PRIORITY,REQUEST_MESSAGE) VALUES ('$eventID','$resourceID','$timeSlotID','$date','0',$uid,'$priority','$request_message')";
+    $query = "INSERT INTO request (EVENT_ID,RESOURCE_ID,TIME_SLOT_ID,REQUEST_DATE,REQUEST_APPROVED,USER_ID,PRIORITY,REQUEST_MESSAGE,DECLINE_MESSAGE) VALUES ('$eventID','$resourceID','$timeSlotID','$date','0',$uid,'$priority','$request_message','$decline_message')";
     
     $result = $conn->query($query);
 
