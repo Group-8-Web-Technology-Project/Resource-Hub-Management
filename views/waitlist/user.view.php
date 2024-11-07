@@ -86,25 +86,13 @@ include("../../database/connection.php");
         background-color: #4b5563;
     }
 
-    button {
-        cursor: pointer;
-        font-size: 0.875rem;
-		display: flex;
-		align-items: space-between;
-        font-weight: 600;
-        border-radius: 6px;
-        padding: 8px 16px;
-        transition: background-color 0.2s, box-shadow 0.2s;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
     button.bg-blue-500 {
-        background-color: #3b82f6;
+        background:linear-gradient(#229c65,#3eecb2);
         color: #ffffff;
     }
 
     button.bg-blue-500:hover {
-        background-color: #2563eb;
+        background:linear-gradient(#03884c,#0af5a7);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     }
 
@@ -213,9 +201,9 @@ include("../../database/connection.php");
 		<div class="content-wrapper">
         <?php
 			$host = "localhost";
-			$user = "csc210user";
-			$password = "CSC210!";
-			$database = "group8";
+			$user = "root";
+			$password = "";
+			$database = "resource";
 
 			$conn = new mysqli($host, $user, $password, $database);
 

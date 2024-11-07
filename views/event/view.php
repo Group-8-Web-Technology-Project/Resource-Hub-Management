@@ -188,10 +188,13 @@ p {
                             </select>
                         </div>
 
-
-
-
-
+                        <div>
+                            <label for="flyer"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Event Flyer</label>
+                            <input type="file" name="event_flyer" id="event_flyer" 
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                required>
+                        </div>
 
                         <div>
 
@@ -328,6 +331,15 @@ function loadResources(searchQuery = "", page) {
                 <p class="font-normal text-xl text-center   text-gray-700 dark:text-gray-400">
                 ${element.EVENT_NAME}
                 </p>
+                <!------
+                <p class="font-normal text-xl text-center   text-gray-700 dark:text-gray-400">
+                ${element.EVENT_FLYER}
+                </p>
+                <div class=" max-w-sm ">
+                    <img src=<?php echo "'".$event["event_flyer"]."'" ?> class=" rounded-lg h-80" alt="">
+                </div>
+                --->
+
             </a>
                 `)
 
@@ -360,9 +372,10 @@ function addEvent() {
     const event_name = document.getElementsByName("event_name")[0];
     const conduct_by = document.getElementsByName("conduct_by")[0];
     const event_type = document.getElementsByName("event_type")[0];
+    const event_flyer = document.getElementsByName("event_flyer")[0];
     const optional_details = document.getElementsByName("optional_details")[0];
 
-    if(event_name.value=="" || conduct_by.value=="" || event_type.value==""){
+    if(event_name.value=="" || conduct_by.value=="" || event_type.value=="" || event_flyer.value==""){
         alert("Please fill all the fields");
         return;
     }
@@ -372,6 +385,7 @@ document.getElementById("resource_form_submit").innerHTML="<i class='fas fa-circ
             event_name: event_name.value,
             conduct_by: conduct_by.value,
             event_type: event_type.value,
+            event_flyer: event_flyer.value,
             optional_details: optional_details.value,
         }
     ).then(
@@ -404,6 +418,7 @@ document.getElementById("resource_form_submit").innerHTML="<i class='fas fa-circ
             event_name.value = "";
             conduct_by.value = "";
             event_type.value = "";
+            event_flyer.value = "";
             optional_details.value = "";
             
 
