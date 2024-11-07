@@ -199,6 +199,11 @@ include("../../database/connection.php");
     .hidden {
         display: none;
     }
+    
+    .content-wrapper{
+        padding-left: 120px;
+        padding-right: 120px;
+    }
 
 </style>
 <body class="dark:bg-slate-900">
@@ -255,13 +260,13 @@ include("../../database/connection.php");
 					echo '<td>' . htmlspecialchars($row['ONGOING']) . '</td>';
 					echo '<td>' . htmlspecialchars($row['FROM']) . '</td>';
 					echo '<td>' . htmlspecialchars($row['TO']) . '</td>';
-					echo '<td>' . htmlspecialchars($row['OCCUPIED_DATE']) . '</td>';
+					echo '<td>' . htmlspecialchars($row['OCCUPIED_DATE']);
 
-					echo '<td>';
 					echo '<form method="POST" action="" onsubmit="return addToWaitlist(this);">';
 					echo '<input type="hidden" name="resource_name" value="' . htmlspecialchars($row['HALL']) . '">';
 					echo '<label for="waitlist_date">Date:</label>';
-					echo '<input type="date" name="waitlist_date" required>';
+					echo '<input type="date" name="waitlist_date" required>';'</td>';
+                    echo '<td>';
 					echo '<button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded">Add to Waitlist</button>';
 					echo '</form>';
 					echo '</td>';
