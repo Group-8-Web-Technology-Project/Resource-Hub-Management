@@ -84,8 +84,14 @@ if(isset($_GET["new"])){
 
 
     
-    $query = "INSERT INTO events(EVENT_NAME,EVENT_TYPE,CONDUCT_BY,OPTIONAL_DETAILS) VALUES('$eventName','$eventType','$conductBy','$optionalDetails')";
-    
+    $query = "INSERT INTO events(EVENT_NAME,EVENT_TYPE,CONDUCT_BY,EVENT_FLYER,OPTIONAL_DETAILS) VALUES('$eventName','$eventType','$conductBy','$event_flyer','$optionalDetails')";
+    //upload the flyer
+    $target_dir = "../../assets/images/";
+    $uid = uniqid();
+    $target_file = $target_dir .  basename($uid."-".$_FILES["event_flyer"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
 
 
 
@@ -225,9 +231,10 @@ if(isset($_GET["edit"])){
     $eventName = addslashes($data["event_name"]);
     $eventType = addslashes($data["event_type"]);
     $conductBy = addslashes($data["conduct_by"]);
+    $eventFlyer = addslashes($data["event_flyer"]);
     $optionalDetails = addslashes($data["optional_details"]);
 
-    $query = "UPDATE events SET EVENT_NAME = '$eventName', EVENT_TYPE = '$eventType', CONDUCT_BY = '$conductBy', OPTIONAL_DETAILS = '$optionalDetails' WHERE ID = '$eventID'";
+    $query = "UPDATE events SET EVENT_NAME = '$eventName', EVENT_TYPE = '$eventType', CONDUCT_BY = '$conductBy', EVENT_FLYER = '$event_flyer',OPTIONAL_DETAILS = '$optionalDetails' WHERE ID = '$eventID'";
 
     $result = $conn->query($query);
 
