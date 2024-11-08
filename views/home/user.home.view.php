@@ -80,6 +80,9 @@
                                     APPROVED
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    FLYER
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     <span class="sr-only">Edit</span>
                                 </th>
                             </tr>
