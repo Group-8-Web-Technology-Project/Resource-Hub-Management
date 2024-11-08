@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.1deb5ubuntu1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 30, 2024 at 05:54 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost:3306
+-- Generation Time: Nov 08, 2024 at 03:19 AM
+-- Server version: 10.6.18-MariaDB-0ubuntu0.22.04.1
+-- PHP Version: 8.1.2-1ubuntu2.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `resourcehub`
+-- Database: `group8`
 --
 
 -- --------------------------------------------------------
@@ -40,7 +40,6 @@ CREATE TABLE `announcement` (
 --
 
 INSERT INTO `announcement` (`id`, `topic`, `message`, `status`, `date`) VALUES
-(1, 'Maintenance On SLL', 'There is going to be a two day maintenance starting from 2024/10/24', 'notice', '2024-10-24'),
 (2, 'AC Not working', 'The AC in the CSL 2 is not working', 'complaint', '2024-10-15'),
 (3, 'Hall is not up for requesting', 'There is a special meeting going on 2024/10/28, so the Discussion room will be unavailable between 2-5 P.M', 'notice', '2024-10-28'),
 (19, 'The Hall needs cleaning', 'The Discussion room needs to be cleaned', 'complaint', '2024-10-16'),
@@ -58,41 +57,85 @@ CREATE TABLE `events` (
   `EVENT_NAME` varchar(200) NOT NULL,
   `EVENT_TYPE` varchar(50) NOT NULL,
   `CONDUCT_BY` varchar(50) NOT NULL,
+  `EVENT_FLYER` varchar(200) DEFAULT NULL,
   `OPTIONAL_DETAILS` varchar(100) DEFAULT NULL,
   `RECURRING` tinyint(1) NOT NULL DEFAULT 0,
   `TEMP` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`ID`, `EVENT_NAME`, `EVENT_TYPE`, `CONDUCT_BY`, `OPTIONAL_DETAILS`, `RECURRING`, `TEMP`) VALUES
-(1, 'Level 1S Practical session  by Dr. K. Thabotharan', 'Practical session', 'Dr. K. Thabotharan', 'From timetable', 1, 0),
-(2, 'Level 3S & 3M Lecture  by Dr. S. Shriparen', 'Lecture', 'Dr. S. Shriparen', 'From timetable', 1, 0),
-(3, 'Level 2G Practical session  by Mr. S. Suthakar', 'Practical session', 'Mr. S. Suthakar', 'From timetable', 1, 0),
-(4, 'Level 3S & 3M Lecture  by Dr. E. Y. A. Charles', 'Lecture', 'Dr. E. Y. A. Charles', 'From timetable', 1, 0),
-(5, 'Level 1G & 1S Lecture  by Prof. M. Siyamalan', 'Lecture', 'Prof. M. Siyamalan', 'From timetable', 1, 0),
-(6, 'Level 3S & 3M Lecture  by Prof. A. Ramanan', 'Lecture', 'Prof. A. Ramanan', 'From timetable', 1, 0),
-(7, 'Level 1S Lecture  by Dr. K. Sarveswaran', 'Lecture', 'Dr. K. Sarveswaran', 'From timetable', 1, 0),
-(8, 'Level 1S Lecture  by Dr. T. Kokul', 'Lecture', 'Dr. T. Kokul', 'From timetable', 1, 0),
-(9, 'Level 3G Practical session  by Dr. S. Shriparen', 'Practical session', 'Dr. S. Shriparen', 'From timetable', 1, 0),
-(10, 'Level 3S & 3M Lecture  by Dr. S. Mahesan', 'Lecture', 'Dr. S. Mahesan', 'From timetable', 1, 0),
-(11, 'Level 1S Lecture  by Dr. T. Mathanaranjan', 'Lecture', 'Dr. T. Mathanaranjan', 'From timetable', 1, 0),
-(12, 'Level 2G & 2S Lecture  by Mr. S. Suthakar', 'Lecture', 'Mr. S. Suthakar', 'From timetable', 1, 0),
-(13, 'Level 2S Lecture  by Dr. (Ms.) R. Nirthika', 'Lecture', 'Dr. (Ms.) R. Nirthika', 'From timetable', 1, 0),
-(14, 'Level 2S Lecture  by Dr. (Mrs.) B. Mayurathan', 'Lecture', 'Dr. (Mrs.) B. Mayurathan', 'From timetable', 1, 0),
-(15, 'Level 3S & 3M Lecture  by Mr. S. Suthakar', 'Lecture', 'Mr. S. Suthakar', 'From timetable', 1, 0),
-(16, 'Level 1S Lecture  by Dr. Ramajeyam Tharshan', 'Lecture', 'Dr. Ramajeyam Tharshan', 'From timetable', 1, 0),
-(17, 'Level 2G & 2S Lecture  by Prof. M. Siyamalan', 'Lecture', 'Prof. M. Siyamalan', 'From timetable', 1, 0),
-(18, 'Level 1G Practical session  by Dr. K. Thabotharan', 'Practical session', 'Dr. K. Thabotharan', 'From timetable', 1, 0),
-(19, 'Level 2S Lecture  by Dr. (Ms.) J. Samantha Tharani', 'Lecture', 'Dr. (Ms.) J. Samantha Tharani', 'From timetable', 1, 0),
-(20, 'Level 1S Practical session  by Dr. K. Sarveswaran', 'Practical session', 'Dr. K. Sarveswaran', 'From timetable', 1, 0),
-(21, 'Level 3S & 3M Lecture  by AWS', 'Lecture', 'AWS', 'From timetable', 1, 0),
-(22, 'Level 2S Practical session  by Dr. (Mrs.) B. Mayurathan', 'Practical session', 'Dr. (Mrs.) B. Mayurathan', 'From timetable', 1, 0),
-(23, 'Level 2S Practical session  by Mr. S. Suthakar', 'Practical session', 'Mr. S. Suthakar', 'From timetable', 1, 0),
-(24, 'Level 3S & 3M Practical session  by Dr. S. Shriparen', 'Practical session', 'Dr. S. Shriparen', 'From timetable', 1, 0),
-(25, 'Level 3M & 3S Lecture  by Dr. S. Mahesan', 'Lecture', 'Dr. S. Mahesan', 'From timetable', 1, 0);
+INSERT INTO `events` (`ID`, `EVENT_NAME`, `EVENT_TYPE`, `CONDUCT_BY`, `EVENT_FLYER`, `OPTIONAL_DETAILS`, `RECURRING`, `TEMP`) VALUES
+(54, 'Level 1S Practical session  by Dr. K. Thabotharan', 'Practical session', 'Dr. K. Thabotharan', NULL, 'From timetable', 1, 0),
+(55, 'Level 3S & 3M Lecture  by Dr. S. Shriparen', 'Lecture', 'Dr. S. Shriparen', NULL, 'From timetable', 1, 0),
+(56, 'Level 2G Practical session  by Mr. S. Suthakar', 'Practical session', 'Mr. S. Suthakar', NULL, 'From timetable', 1, 0),
+(57, 'Level 3S & 3M Lecture  by Dr. E. Y. A. Charles', 'Lecture', 'Dr. E. Y. A. Charles', NULL, 'From timetable', 1, 0),
+(58, 'Level 1G & 1S Lecture  by Prof. M. Siyamalan', 'Lecture', 'Prof. M. Siyamalan', NULL, 'From timetable', 1, 0),
+(59, 'Level 3S & 3M Lecture  by Prof. A. Ramanan', 'Lecture', 'Prof. A. Ramanan', NULL, 'From timetable', 1, 0),
+(60, 'Level 1S Lecture  by Dr. K. Sarveswaran', 'Lecture', 'Dr. K. Sarveswaran', NULL, 'From timetable', 1, 0),
+(61, 'Level 1S Lecture  by Dr. T. Kokul', 'Lecture', 'Dr. T. Kokul', NULL, 'From timetable', 1, 0),
+(62, 'Level 3G Practical session  by Dr. S. Shriparen', 'Practical session', 'Dr. S. Shriparen', NULL, 'From timetable', 1, 0),
+(63, 'Level 3S & 3M Lecture  by Dr. S. Mahesan', 'Lecture', 'Dr. S. Mahesan', NULL, 'From timetable', 1, 0),
+(64, 'Level 1S Lecture  by Dr. T. Mathanaranjan', 'Lecture', 'Dr. T. Mathanaranjan', NULL, 'From timetable', 1, 0),
+(65, 'Level 2G & 2S Lecture  by Mr. S. Suthakar', 'Lecture', 'Mr. S. Suthakar', NULL, 'From timetable', 1, 0),
+(66, 'Level 2S Lecture  by Dr. (Ms.) R. Nirthika', 'Lecture', 'Dr. (Ms.) R. Nirthika', NULL, 'From timetable', 1, 0),
+(67, 'Level 2S Lecture  by Dr. (Mrs.) B. Mayurathan', 'Lecture', 'Dr. (Mrs.) B. Mayurathan', NULL, 'From timetable', 1, 0),
+(68, 'Level 3S & 3M Lecture  by Mr. S. Suthakar', 'Lecture', 'Mr. S. Suthakar', NULL, 'From timetable', 1, 0),
+(69, 'Level 1S Lecture  by Dr. Ramajeyam Tharshan', 'Lecture', 'Dr. Ramajeyam Tharshan', NULL, 'From timetable', 1, 0),
+(70, 'Level 2G & 2S Lecture  by Prof. M. Siyamalan', 'Lecture', 'Prof. M. Siyamalan', NULL, 'From timetable', 1, 0),
+(71, 'Level 1G Practical session  by Dr. K. Thabotharan', 'Practical session', 'Dr. K. Thabotharan', NULL, 'From timetable', 1, 0),
+(72, 'Level 2S Lecture  by Dr. (Ms.) J. Samantha Tharani', 'Lecture', 'Dr. (Ms.) J. Samantha Tharani', NULL, 'From timetable', 1, 0),
+(73, 'Level 1S Practical session  by Dr. K. Sarveswaran', 'Practical session', 'Dr. K. Sarveswaran', NULL, 'From timetable', 1, 0),
+(74, 'Level 3S & 3M Lecture  by AWS', 'Lecture', 'AWS', NULL, 'From timetable', 1, 0),
+(75, 'Level 2S Practical session  by Dr. (Mrs.) B. Mayurathan', 'Practical session', 'Dr. (Mrs.) B. Mayurathan', NULL, 'From timetable', 1, 0),
+(76, 'Level 2S Practical session  by Mr. S. Suthakar', 'Practical session', 'Mr. S. Suthakar', NULL, 'From timetable', 1, 0),
+(77, 'Level 3S & 3M Practical session  by Dr. S. Shriparen', 'Practical session', 'Dr. S. Shriparen', NULL, 'From timetable', 1, 0),
+(78, 'Level 3M & 3S Lecture  by Dr. S. Mahesan', 'Lecture', 'Dr. S. Mahesan', NULL, 'From timetable', 1, 0),
+(79, 'Level 1G & 1S Lecture  by ICAMS', 'Lecture', 'ICAMS', NULL, 'From timetable', 1, 0),
+(80, 'React Hands on session', 'Hands On Session', 'IEEE', NULL, NULL, 0, 1),
+(81, 'React Hands on session', 'Hands On Session', 'IEEE', NULL, NULL, 0, 1),
+(82, 'React Hands on session', 'Tech Talk', 'IEEE', NULL, NULL, 0, 1),
+(83, 'React Hands on session', 'Tech Talk', 'IEEE', NULL, NULL, 0, 1),
+(84, 'React Hands on session', 'Tech Talk', 'IEEE', NULL, NULL, 0, 1),
+(85, 'React Hands on session', 'Tech Talk', 'IEEE', NULL, NULL, 0, 1),
+(86, 'React Hands on session', 'Tech Talk', 'IEEE', NULL, NULL, 0, 1),
+(87, 'React Hands on session', 'Hands On Session', 'IEEE', NULL, NULL, 0, 1),
+(88, 'React Hands on session', 'Hands On Session', 'IEEE', NULL, NULL, 0, 1),
+(89, 'React Hands on session', 'Hands On Session', 'IEEE', NULL, NULL, 0, 1),
+(90, 'React Hands on session', 'Hands On Session', 'IEEE', NULL, NULL, 0, 1),
+(91, 'React Hands on session', 'Hands On Session', 'IEEE', NULL, NULL, 0, 1),
+(92, 'React Hands on session', 'Hands On Session', 'IEEE', NULL, NULL, 0, 1),
+(93, 'React Hands on session', 'Hands On Session', 'IEEE', NULL, NULL, 0, 1),
+(94, 'React Hands on session', 'Hands On Session', 'IEEE', NULL, NULL, 0, 1),
+(95, 'React Hands on session', 'Hands On Session', 'IEEE', NULL, NULL, 0, 1),
+(96, 'React Hands on session', 'Hands On Session', 'IEEE', NULL, NULL, 0, 1),
+(97, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(98, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(99, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(100, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(101, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(102, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(103, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(104, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(105, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(106, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(107, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(108, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(109, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(110, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(111, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(112, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(113, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(114, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(115, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(116, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(117, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(118, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(119, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(120, 'Introduction to React Js', 'Hands On Session', 'CompSoc', NULL, NULL, 0, 1),
+(121, 'Introduction to Robotics', 'Hands On Session', 'IEEE', '../../assets/images/flyers/Introduction to Robotics by IEEE.jpg', NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -108,7 +151,74 @@ CREATE TABLE `occupied` (
   `OCCUPIED_DATE` date DEFAULT NULL,
   `ACTIVE` tinyint(1) NOT NULL DEFAULT 0,
   `OPTIONAL_DETAILS` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+--
+-- Dumping data for table `occupied`
+--
+
+INSERT INTO `occupied` (`OCCUPY_ID`, `RESOURCE_ID`, `EVENT_ID`, `TIME_SLOT_ID`, `OCCUPIED_DATE`, `ACTIVE`, `OPTIONAL_DETAILS`) VALUES
+(84, 4, 55, 1, NULL, 1, 'From timetable'),
+(85, 2, 54, 3, NULL, 1, 'From timetable'),
+(87, 1, 57, 2, NULL, 1, 'From timetable'),
+(88, 4, 58, 4, NULL, 1, 'From timetable'),
+(91, 4, 60, 6, NULL, 1, 'From timetable'),
+(92, 6, 56, 7, NULL, 1, 'From timetable'),
+(93, 2, 59, 8, NULL, 1, 'From timetable'),
+(96, 2, 61, 11, NULL, 1, 'From timetable'),
+(98, 4, 60, 12, NULL, 1, 'From timetable'),
+(99, 2, 63, 12, NULL, 1, 'From timetable'),
+(100, 6, 62, 13, NULL, 1, 'From timetable'),
+(101, 2, 63, 14, NULL, 1, 'From timetable'),
+(102, 1, 64, 15, NULL, 1, 'From timetable'),
+(103, 4, 65, 15, NULL, 1, 'From timetable'),
+(104, 2, 55, 15, NULL, 1, 'From timetable'),
+(105, 4, 61, 16, NULL, 1, 'From timetable'),
+(106, 1, 66, 16, NULL, 0, 'From timetable'),
+(107, 2, 59, 16, NULL, 1, 'From timetable'),
+(108, 4, 67, 17, NULL, 1, 'From timetable'),
+(110, 1, 69, 18, NULL, 1, 'From timetable'),
+(111, 4, 70, 18, NULL, 1, 'From timetable'),
+(112, 2, 68, 19, NULL, 1, 'From timetable'),
+(115, 6, 71, 22, NULL, 1, 'From timetable'),
+(116, 2, 72, 22, NULL, 1, 'From timetable'),
+(117, 2, 73, 23, NULL, 1, 'From timetable'),
+(118, 1, 74, 23, NULL, 1, 'From timetable'),
+(119, 4, 61, 24, NULL, 1, 'From timetable'),
+(120, 2, 72, 24, NULL, 1, 'From timetable'),
+(121, 1, 57, 24, NULL, 1, 'From timetable'),
+(122, 4, 58, 25, NULL, 1, 'From timetable'),
+(123, 1, 67, 25, NULL, 1, 'From timetable'),
+(124, 2, 59, 25, NULL, 1, 'From timetable'),
+(125, 1, 69, 26, NULL, 1, 'From timetable'),
+(126, 4, 65, 26, NULL, 1, 'From timetable'),
+(127, 2, 57, 26, NULL, 1, 'From timetable'),
+(129, 1, 69, 28, NULL, 1, 'From timetable'),
+(130, 2, 75, 33, NULL, 1, 'From timetable'),
+(131, 2, 61, 30, NULL, 1, 'From timetable'),
+(133, 2, 61, 32, NULL, 1, 'From timetable'),
+(134, 1, 68, 33, NULL, 1, 'From timetable'),
+(135, 2, 60, 34, NULL, 1, 'From timetable'),
+(136, 1, 55, 34, NULL, 1, 'From timetable'),
+(139, 2, 76, 39, NULL, 1, 'From timetable'),
+(140, 1, 57, 38, NULL, 1, 'From timetable'),
+(141, 2, 61, 40, NULL, 1, 'From timetable'),
+(143, 4, 66, 41, NULL, 0, 'From timetable'),
+(144, 1, 63, 41, NULL, 1, 'From timetable'),
+(146, 1, 63, 42, NULL, 1, 'From timetable'),
+(147, 2, 54, 45, NULL, 1, 'From timetable'),
+(148, 4, 64, 46, NULL, 1, 'From timetable'),
+(149, 2, 74, 46, NULL, 1, 'From timetable'),
+(152, 4, 60, 50, NULL, 1, 'From timetable'),
+(153, 2, 77, 51, NULL, 1, 'From timetable'),
+(155, 2, 78, 52, NULL, 1, 'From timetable'),
+(157, 4, 70, 53, NULL, 1, 'From timetable'),
+(158, 2, 63, 53, NULL, 1, 'From timetable'),
+(159, 6, 71, 56, NULL, 1, 'From timetable'),
+(160, 2, 63, 55, NULL, 1, 'From timetable'),
+(162, 2, 61, 59, NULL, 1, 'From timetable'),
+(163, 2, 79, 60, NULL, 1, 'From timetable'),
+(164, 6, 121, 68, NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -126,8 +236,15 @@ CREATE TABLE `request` (
   `REQUEST_APPROVED` tinyint(1) NOT NULL DEFAULT 0,
   `PRIORITY` int(11) NOT NULL DEFAULT 0,
   `REQUEST_MESSAGE` varchar(400) NOT NULL,
-  `DECLINE_MESSAGE` varchar(400) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `DECLINE_MESSAGE` varchar(400) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+--
+-- Dumping data for table `request`
+--
+
+INSERT INTO `request` (`REQUEST_ID`, `USER_ID`, `RESOURCE_ID`, `EVENT_ID`, `TIME_SLOT_ID`, `REQUEST_DATE`, `REQUEST_APPROVED`, `PRIORITY`, `REQUEST_MESSAGE`, `DECLINE_MESSAGE`) VALUES
+(46, 100, 6, 121, 68, '2024-11-14', 1, 1, 'IEEE session on Intro to Robotics', 'None');
 
 -- --------------------------------------------------------
 
@@ -138,7 +255,7 @@ CREATE TABLE `request` (
 CREATE TABLE `reset_token` (
   `USER_ID` int(11) NOT NULL,
   `TOKEN` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
@@ -154,7 +271,7 @@ CREATE TABLE `resource` (
   `BUILDING_NAME` varchar(50) NOT NULL,
   `SEATING` int(11) DEFAULT NULL,
   `IMAGE` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
 -- Dumping data for table `resource`
@@ -162,15 +279,15 @@ CREATE TABLE `resource` (
 
 INSERT INTO `resource` (`ID`, `RESOURCE_NAME`, `RESOURCE_TYPE`, `OPTIONAL_DETAILS`, `BUILDING_NAME`, `SEATING`, `IMAGE`) VALUES
 (1, 'CSL - 1 & 2', 'Lab', 'Computer Science Lab @ 1st Floor of the DCS building			', 'DCS building', 100, '../../assets/images/csl_1&2.jpg'),
-(2, 'CSL - 3 & 4', 'Lab', 'Computer Science Lab @ 2nd Floor of the DCS building			', 'DCS building', 100, ''),
+(2, 'CSL - 3 & 4', 'Lab', 'Computer Science Lab @ 2nd Floor of the DCS building			', 'DCS building', 100, '../../assets/images/csl_3&4.jpg'),
 (3, 'CSH', 'Lecture Hall', 'Computer Science Lecture Hall @ 2nd Floor of the DCS building			', 'DCS building', 60, ''),
 (4, 'CSA', 'Auditorium', 'DCS Auditorium', 'DCS building', 150, '../../assets/images/csa.jpg'),
-(5, 'CUL - 1', 'Lecture Hall', 'Computer Unit Lecture Hall @ Ground Floor of the New Science Block			', 'New Science Block', NULL, '../../assets/images/cul_1.jpg'),
+(5, 'CUL - 1', 'Lecture Hall', 'Computer Unit Lecture Hall @ Ground Floor of the New Science Block			', 'New Science Block', 100, '../../assets/images/cul_1.jpg'),
 (6, 'SLL', 'Lab', 'Science Language Lab @ 2nd Floor of the New Science Block			', 'New Science Block', 67, ''),
-(7, 'DRoom', 'Discussion Room', 'Discussion Room @Ground Floor of the DCS building			', 'DCS building', NULL, '../../assets/images/discussion_room.jpg'),
-(8, 'P1', 'Lecture Hall', 'Physics Lecture Hall', 'Physics building', NULL, ''),
-(9, '1M', 'Lecture Hall', 'Mathematics Lecture Hall', 'Mathematics building', NULL, '../../assets/images/1m.jpg'),
-(10, '2M', 'Lecture Hall', 'Mathematics Lecture Hall', 'Mathematics building', NULL, '../../assets/images/2m.jpg');
+(7, 'DRoom', 'Discussion Room', 'Discussion Room @Ground Floor of the DCS building			', 'DCS building', 15, '../../assets/images/discussion_room.jpg'),
+(8, 'P1', 'Lecture Hall', 'Physics Lecture Hall', 'Physics building', 100, ''),
+(9, '1M', 'Lecture Hall', 'Mathematics Lecture Hall', 'Mathematics building', 160, '../../assets/images/1m.jpg'),
+(10, '2M', 'Lecture Hall', 'Mathematics Lecture Hall', 'Mathematics building', 100, '../../assets/images/2m.jpg');
 
 -- --------------------------------------------------------
 
@@ -202,7 +319,7 @@ CREATE TABLE `time_slot` (
   `END_TIME` int(11) NOT NULL,
   `DAY` varchar(50) DEFAULT NULL,
   `OPTIONAL_DETAILS` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
 -- Dumping data for table `time_slot`
@@ -268,7 +385,12 @@ INSERT INTO `time_slot` (`ID`, `START_TIME`, `END_TIME`, `DAY`, `OPTIONAL_DETAIL
 (57, 8, 9, 'Saturday', 'From timetable'),
 (58, 9, 10, 'Saturday', 'From timetable'),
 (59, 8, 10, 'Saturday', 'From timetable'),
-(60, 10, 11, 'Saturday', 'From timetable');
+(60, 10, 11, 'Saturday', 'From timetable'),
+(64, 15, 17, 'Saturday', NULL),
+(65, 14, 16, 'Saturday', NULL),
+(66, 8, 10, 'Sunday', NULL),
+(67, 10, 12, 'Sunday', NULL),
+(68, 8, 10, 'Thursday', NULL);
 
 -- --------------------------------------------------------
 
@@ -286,7 +408,7 @@ CREATE TABLE `user` (
   `USER_TYPE` varchar(50) NOT NULL,
   `APPROVED` tinyint(1) NOT NULL DEFAULT 0,
   `VERIFIED` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
 -- Dumping data for table `user`
@@ -306,7 +428,12 @@ INSERT INTO `user` (`USER_ID`, `USER_NAME`, `ACRONYM`, `STUDENT_ID`, `USER_EMAIL
 (11, 'Mr. S. Suthakar', 'SSu', NULL, 'sosuthakar@univ.jfn.ac.dummy.lk', '$2y$10$8Ap0sfxFyWrQWOxq9mHE0O.lDIEQ9i4jIY4FkbWzjoDJBhqvN0MpG', 'LECTURER', 1, 1),
 (12, 'Dr. (Ms.) J. Samantha Tharani', 'STJ', NULL, 'samanthaj@univ.jfn.ac.dummy.lk', '$2y$10$8Ap0sfxFyWrQWOxq9mHE0O.lDIEQ9i4jIY4FkbWzjoDJBhqvN0MpG', 'LECTURER', 1, 1),
 (13, 'Dr. T. Kokul', 'TK', NULL, 'kokul@univ.jfn.ac.dummy.lk', '$2y$10$8Ap0sfxFyWrQWOxq9mHE0O.lDIEQ9i4jIY4FkbWzjoDJBhqvN0MpG', 'LECTURER', 1, 1),
-(14, 'Dr. T. Mathanaranjan', 'TM', NULL, 'mathanaranjan@gmail.dummmy.com', '$2y$10$8Ap0sfxFyWrQWOxq9mHE0O.lDIEQ9i4jIY4FkbWzjoDJBhqvN0MpG', 'LECTURER', 1, 1);
+(14, 'Dr. T. Mathanaranjan', 'TM', NULL, 'mathanaranjan@gmail.dummmy.com', '$2y$10$8Ap0sfxFyWrQWOxq9mHE0O.lDIEQ9i4jIY4FkbWzjoDJBhqvN0MpG', 'LECTURER', 1, 1),
+(96, 'Piyumantha Jayadinu Munasinghe', NULL, '', 'piyumanthajm@gmail.com', '$2y$10$zYSpxwFuE5vuHiXhHLhRkevEY0zVbQrgp2KgnFxqVGG16uU9VXHkW', 'ADMIN', 1, 1),
+(97, 'Thiwanka Chanditha', NULL, '', 'thiwankasinhalage@ieee.org', '$2y$10$c.4LdYGoNK678EjVBrvdA./sk6FsVoMbQgba4Wzm/450NR0TpV2qu', 'ADMIN', 1, 1),
+(98, 'Student', NULL, '2021/csc/xxx', 'student@gmail.com', '$2y$10$GZ/mGHcZiZdVpo2raR9KNe4iCnEb80rpRbZbZJqmjAtittmz65/UK', 'STUDENT', 1, 1),
+(99, 'Admin', NULL, '', 'admin@gmail.com', '$2y$10$isiuU6yEPaUAoWFvLUiO2u9P7glOU5WxzGRQv8VO7F133oO9nP4V.', 'ADMIN', 1, 1),
+(100, 'Lecturer', NULL, '', 'lecturer@gmail.com', '$2y$10$JLm5QoxljxD/dB7/rrHPuO43bHIUmAITycJFjFHGDQZiqnmKp1782', 'LECTURER', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -328,7 +455,8 @@ CREATE TABLE `waitlist` (
 INSERT INTO `waitlist` (`USER_ID`, `RESOURCE_NAME`, `JOIN_DATE`, `JOIN_TIME`) VALUES
 (71, 'SSL', '2025-03-20', '15:24:02'),
 (57, 'SSL', '2024-12-18', '15:24:53'),
-(72, 'CSL 3,4', '2024-11-06', '15:43:11');
+(72, 'CSL 3,4', '2024-11-06', '15:43:11'),
+(97, 'CSL - 3 & 4', '2024-11-29', '04:41:38');
 
 --
 -- Indexes for dumped tables
@@ -409,19 +537,19 @@ ALTER TABLE `announcement`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT for table `occupied`
 --
 ALTER TABLE `occupied`
-  MODIFY `OCCUPY_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `OCCUPY_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
 
 --
 -- AUTO_INCREMENT for table `request`
 --
 ALTER TABLE `request`
-  MODIFY `REQUEST_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `REQUEST_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `resource`
@@ -433,13 +561,13 @@ ALTER TABLE `resource`
 -- AUTO_INCREMENT for table `time_slot`
 --
 ALTER TABLE `time_slot`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `USER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `USER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- Constraints for dumped tables
