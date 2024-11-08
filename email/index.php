@@ -16,7 +16,7 @@ function createMailInstance(){
 
         $mail->Host       = 'smtp.gmail.com';
         $mail->Username   = '2021csc048@univ.jfn.ac.lk';
-        $mail->Password   = 'eedu oovw bvcp rkpk';
+        $mail->Password   = 'cdhp bduw exrx ofzr';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
         $mail->isHTML(true);
