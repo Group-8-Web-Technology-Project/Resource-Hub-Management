@@ -16,18 +16,19 @@ $table_start_number = 4;                                                echo"<sc
 $table_end = "S28";                                                     echo"<script>console.log('Table end: $table_end');</script>";
 
 date_default_timezone_set("Asia/Colombo");
-$datetime_now = date("Y-m-d h:i:s");
-$query = "SELECT * FROM script_delay WHERE ID = '0'";
+$datetime_now = date("Y-m-d H:i:s");
+$query = "SELECT * FROM script_delay WHERE ID = 0";
 $result = $conn->query($query);
 if($result->num_rows>0){
     $row = $result->fetch_assoc();
     $last_run = $row["LAST_RUN"];
-    $datetime_next = date("Y-m-d h:i:s", strtotime('+30 minutes', strtotime($last_run)));
-    
-    if((strtotime($datetime_now) - strtotime($datetime_next)) >= 1800){
+    $datetime_next = date("Y-m-d H:i:s", strtotime("+30 minutes", strtotime($last_run)));
+    $timeDiff = strtotime($datetime_now) - strtotime($datetime_next);
+
+    if($timeDiff >= 0){
         traverse_Table($table_start_letter, $table_start_number, $table_end);
 
-        $set_last_run = "UPDATE script_delay SET LAST_RUN = '$datetime_now' WHERE ID = '0'";
+        $set_last_run = "UPDATE script_delay SET LAST_RUN = '$datetime_now' WHERE ID = 0";
         $conn->query($set_last_run);
     }
     else{
@@ -76,8 +77,10 @@ function traverse_Table($start_letter, $start_number, $end){
             $rowString_matchArr[2] = 0;
         }
         $range = "Timetable!$block_start_letter$block_start_number:$block_end_letter$block_end_number";
-        $response = $service->spreadsheets_values->get($spreadsheetId, $range);
-        $values = $response->getValues();
+        $response = $service->spreadsheets->get($spreadsheetId, [
+            'ranges' => $range,
+            'fields' => 'sheets.data.rowData.values(userEnteredValue,userEnteredFormat(textFormat))'
+        ]);
 
         switch($block_start_number){
             case $start_number:
@@ -116,57 +119,65 @@ function traverse_Table($start_letter, $start_number, $end){
 
         if($day_num == 0){$day = "Monday";}
 
-        if(!empty($values)){  // Retrieving data from each block
+        if (!empty($response->getSheets())) {                                echo"<script>console.log('Retrieving data from the block: $block_start_letter$block_start_number:$block_end_letter$block_end_number');</script>";
             $iteration = 1;
-            foreach ($values as $row){                                  echo"<script>console.log('Retrieving data from the block: $block_start_letter$block_start_number:$block_end_letter$block_end_number');</script>";
-                if(!empty($row[0]) && !empty($row[1]) && !empty($row[2])){
-                    $level = $row[0];
-                    $by = preg_replace('/[^A-Za-z0-9]/', '', $row[1]);
-                    $by = preg_replace('/[0-9]/', '', $by );
-                    if(preg_match("#[" . "\xCC\xB6" . "]#", $by)){ continue; }
-                    $resource = $row[2];
-            
-                    switch($iteration){
-                        case 1:
-                            $rowString[0] == "$row[0]$row[1]$row[2]" ? $rowString_matchArr[0]++ : $rowString_matchArr[0] = 0;
-                            $rowString[0] = "$row[0]$row[1]$row[2]";
-                            break;
-                        case 2:
-                            $rowString[1] == "$row[0]$row[1]$row[2]" ? $rowString_matchArr[1]++ : $rowString_matchArr[1] = 0;
-                            $rowString[1] = "$row[0]$row[1]$row[2]";
-                            break;
-                        case 3:
-                            $rowString[2] == "$row[0]$row[1]$row[2]" ? $rowString_matchArr[2]++ : $rowString_matchArr[2] = 0;
-                            $rowString[2] = "$row[0]$row[1]$row[2]";
-                            break;
-                    }
+            foreach ($response->getSheets() as $sheet) {
+                foreach ($sheet->getData() as $rows) {
+                    foreach ($rows->getRowData() as $rowData) {
+                        $cellValues = $rowData->getValues();
+                        $row = [];
+                        $row[0] = isset($cellValues[0]) && $cellValues[0]->getUserEnteredValue() ? $cellValues[0]->getUserEnteredValue()->getStringValue() : '';
+                        $row[1] = isset($cellValues[1]) && $cellValues[1]->getUserEnteredValue() ? $cellValues[1]->getUserEnteredValue()->getStringValue() : '';
+                        $row[2] = isset($cellValues[2]) && $cellValues[2]->getUserEnteredValue() ? $cellValues[2]->getUserEnteredValue()->getStringValue() : '';
 
-                    $eventID = pushData_Events($level, $by);
-                    $timeSlotID = pushData_TimeSlot($start_time, $end_time, $day);
+                        if ($row[0]!='' && $row[1]!='' && $row[2]!=''){
 
-                    date_default_timezone_set("Asia/Colombo");
-                    $today_day = date("l");
-                    if((double)date("G.i")>$start_time && (double)date("G.i")<$end_time && $day == $today_day){
-                        $active = 1;
-                    } else{ $active = 0; }
+                            $level = $row[0];
+                            $by = preg_replace('/[^A-Za-z0-9]/', '', $row[1]);
+                            $by = preg_replace('/[0-9]/', '', $by);
+                            $resource = $row[2];
 
-                    $occupiedID = pushData_Occupied($resource, $eventID, $timeSlotID, $active);
-                    switch($iteration){
-                        case 1:
-                            $occupiedIDArr1[0] = $occupiedIDArr2[0];
-                            $occupiedIDArr2[0] = $occupiedID;
-                            break;
-                        case 2:
-                            $occupiedIDArr1[1] = $occupiedIDArr2[1];
-                            $occupiedIDArr2[1] = $occupiedID;
-                            break;
-                        case 3:
-                            $occupiedIDArr1[2] = $occupiedIDArr2[2];
-                            $occupiedIDArr2[2] = $occupiedID;
-                            break;
+                            $byFormat = $cellValues[1]->getUserEnteredFormat();
+                            $strikethrough = isset($byFormat) && $byFormat->getTextFormat() ? $byFormat->getTextFormat()->getStrikethrough() : false;
+                            $active = $strikethrough ? 0 : 1;
+
+                            switch($iteration){
+                                case 1:
+                                    $rowString[0] == "$row[0]$row[1]$row[2]" ? $rowString_matchArr[0]++ : $rowString_matchArr[0] = 0;
+                                    $rowString[0] = "$row[0]$row[1]$row[2]";
+                                    break;
+                                case 2:
+                                    $rowString[1] == "$row[0]$row[1]$row[2]" ? $rowString_matchArr[1]++ : $rowString_matchArr[1] = 0;
+                                    $rowString[1] = "$row[0]$row[1]$row[2]";
+                                    break;
+                                case 3:
+                                    $rowString[2] == "$row[0]$row[1]$row[2]" ? $rowString_matchArr[2]++ : $rowString_matchArr[2] = 0;
+                                    $rowString[2] = "$row[0]$row[1]$row[2]";
+                                    break;
+                            }
+        
+                            $eventID = pushData_Events($level, $by);
+                            $timeSlotID = pushData_TimeSlot($start_time, $end_time, $day);
+        
+                            $occupiedID = pushData_Occupied($resource, $eventID, $timeSlotID, $active);
+                            switch($iteration){
+                                case 1:
+                                    $occupiedIDArr1[0] = $occupiedIDArr2[0];
+                                    $occupiedIDArr2[0] = $occupiedID;
+                                    break;
+                                case 2:
+                                    $occupiedIDArr1[1] = $occupiedIDArr2[1];
+                                    $occupiedIDArr2[1] = $occupiedID;
+                                    break;
+                                case 3:
+                                    $occupiedIDArr1[2] = $occupiedIDArr2[2];
+                                    $occupiedIDArr2[2] = $occupiedID;
+                                    break;
+                            }
+                        }
+                        $iteration++;
                     }
                 }
-                $iteration++;
             }
         }
 
@@ -350,11 +361,11 @@ function pushData_Occupied($resource, $eventID, $timeSlotID, $active){
         $row = $result->fetch_assoc();
         $id = $row["OCCUPY_ID"];
 
-        $query_update = "UPDATE occupied SET ACTIVE = '$active' WHERE OCCUPY_ID = '$id'";
+        $query_update = "UPDATE occupied SET ACTIVE = $active WHERE OCCUPY_ID = '$id'";
         $conn->query($query_update);
     }
     else{
-        $query = "INSERT INTO occupied (EVENT_ID, RESOURCE_ID, TIME_SLOT_ID, ACTIVE, OPTIONAL_DETAILS) VALUES ('$eventID', '$resource_id', '$timeSlotID', '$active', 'From timetable')";
+        $query = "INSERT INTO occupied (EVENT_ID, RESOURCE_ID, TIME_SLOT_ID, ACTIVE, OPTIONAL_DETAILS) VALUES ('$eventID', '$resource_id', '$timeSlotID', $active, 'From timetable')";
         $conn->query($query);                                           echo"<script>console.log('Resource occupied: $resource for event id-$eventID');</script>";
 
         $query_check = "SELECT * FROM occupied WHERE EVENT_ID = '$eventID' AND RESOURCE_ID = '$resource_id' AND TIME_SLOT_ID = '$timeSlotID'";

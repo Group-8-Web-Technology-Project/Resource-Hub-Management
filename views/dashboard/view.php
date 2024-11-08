@@ -1,6 +1,7 @@
 <?php
 require_once "../../utils/header.php";
 require_once "../../utils/admin.php";
+//require_once "../../database/timetable_synchronize/synchronize.php";
 include("../../database/connection.php");
 
 $approve_request = "SELECT COUNT(*) AS count FROM request WHERE REQUEST_APPROVED = 1";
@@ -55,7 +56,7 @@ $total_requests = $approve_count + $pending_count + $declined_count;
 <script src="../../assets/lib/simple-notify.min.js"></script>
 <script language="javascript" type="text/javascript" src="/path/to/file/src/profile-image.js"></script>
 <link rel="stylesheet" href="dashboard_view.css">
-<link rel="stylesheet"href='tableStyle.css'>
+<link rel="stylesheet "href='tableStyle.css'>
 <style>
     
 </style>
