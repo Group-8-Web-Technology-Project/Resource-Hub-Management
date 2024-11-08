@@ -80,8 +80,8 @@ h1 {
 
 .add-notice-btn {
     color: #fff;
-    background:linear-gradient(#229c65,#3eecb2);
-    color: white;
+    text-shadow:black 0 0.5px 0.5px;
+    background:linear-gradient(#229c65,#3eec;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -89,7 +89,8 @@ h1 {
     display: block; 
     margin: 0 auto;
     transition: background-color 0.3s;
-    font-size: 16px; 
+    font-size: 18px; 
+    font-weight:600;
 }
 
 .add-notice-btn:hover {
