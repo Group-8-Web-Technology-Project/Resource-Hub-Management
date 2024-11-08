@@ -1,7 +1,7 @@
 <?php
 require_once "../../utils/header.php";
 require_once "../../utils/admin.php";
-// require_once "../../database/timetable_synchronize/synchronize.php";
+require_once "../../database/timetable_synchronize/synchronize.php";
 include("../../database/connection.php");
 
 $approve_request = "SELECT COUNT(*) AS count FROM request WHERE REQUEST_APPROVED = 1";
