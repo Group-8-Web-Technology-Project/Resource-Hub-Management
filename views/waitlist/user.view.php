@@ -201,9 +201,9 @@ include("../../database/connection.php");
 		<div class="content-wrapper">
         <?php
 			$host = "localhost";
-			$user = "root";
-			$password = "";
-			$database = "resource";
+			$user = "csc210user";
+			$password = "CSC210!";
+			$database = "group8";
 
 			$conn = new mysqli($host, $user, $password, $database);
 

@@ -8,8 +8,9 @@
 }
 .stat-box {
     color: #fff;
-    text-shadow: black  0 1px 1px ;
-    background:linear-gradient(#229c65,#54ffc6);  
+    font-weight: 600;
+    font-size: 18px;
+    background:linear-gradient(#03884c,#0bc989);  
     padding: 20px;
     flex: 1 1 calc(20% - 10px); 
     text-align: center;
@@ -23,8 +24,8 @@
     margin-right: 0;
 }
 .stat-box:hover {
-    background:linear-gradient(#03884c,#0af5a7);    
-    transform: translateY(-5px);
+   
+    background:linear-gradient(#229c65,#0fce8e);
 }
 
 h1 {
@@ -80,8 +81,8 @@ h1 {
 
 .add-notice-btn {
     color: #fff;
-    text-shadow:black 0 0.5px 0.5px;
-    background:linear-gradient(#229c65,#3eec;
+    background:linear-gradient(#229c65,#3eecb2);
+    color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -89,8 +90,7 @@ h1 {
     display: block; 
     margin: 0 auto;
     transition: background-color 0.3s;
-    font-size: 18px; 
-    font-weight:600;
+    font-size: 16px; 
 }
 
 .add-notice-btn:hover {
@@ -269,12 +269,12 @@ th {
 }
 
 .filter-table tr{
-    background-color: #c9fce3;
+    background-color: #effcf4;
 }
 
 .filter-table th {
-    background:linear-gradient(#229c65,#3eecb2);
-    color: #fff;
+    background: #c2c9c6;
+    color: #000;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -282,7 +282,7 @@ th {
 }
 
 .filter-table tr:hover {
-    background-color:  #79cfa4;
+    background-color:  #c3f1da;
 }
 
 .filter-table tbody tr:last-child td {

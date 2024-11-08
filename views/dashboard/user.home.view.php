@@ -66,7 +66,7 @@ $total_requests = $approve_count + $pending_count + $declined_count;
             <h1 class="mb-8 text-4xl text-center md:text-left font-bold leading-none text-gray-700 md:text-5xl lg:text-5xl 2xl:mt-10 mt-8 dark:text-white">
                 Dashboard
             </h1>
-            <link rel="stylesheet" href="timelineStyle.css">
+            
 
                 <div class="container">
                     <div class="cards-wrapper">
