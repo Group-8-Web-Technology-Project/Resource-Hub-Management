@@ -155,6 +155,7 @@ p {
                 </button>
                 <div class="px-6 py-6 lg:px-8">
                     <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Add New Event</h3>
+                   <!--Form for add event-->
                     <form id="addResourceForm" class="space-y-6" action="#">
                         <div>
                             <label for="email"
@@ -187,33 +188,21 @@ p {
                                 <option value="Other">Other</option>
                             </select>
                         </div>
-
                         <div>
                             <label for="flyer"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Event Flyer</label>
                             <input type="file" name="event_flyer" id="event_flyer" 
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                >
+                                required>
                         </div>
-
-
-
-
                         <div>
-
                             <label for="message"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Optional
                                 Details</label>
                             <textarea name="optional_details" rows="4"
                                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Write your thoughts here..."></textarea>
-
                         </div>
-
-
-
-
-
 
                     </form>
                     <button onclick="addEvent()" id="resource_form_submit"
@@ -232,14 +221,7 @@ p {
 
 </body>
 
-
-
-
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
-
-
 
 <script>
 document.getElementById("addResourceForm").addEventListener('submit', (e) => e.preventDefault());
@@ -333,7 +315,12 @@ function loadResources(searchQuery = "", page) {
                 
                 <p class="font-normal text-xl text-center   text-gray-700 dark:text-gray-400">
                 ${element.EVENT_NAME}
-                </p>
+                </p>  
+
+                <div class=" max-w-sm ">
+                    <img src=<?php echo "'".$resource["event_flyer"]."'" ?> class=" rounded-lg h-80" alt="">
+                </div>
+
             </a>
                 `)
 
@@ -366,9 +353,10 @@ function addEvent() {
     const event_name = document.getElementsByName("event_name")[0];
     const conduct_by = document.getElementsByName("conduct_by")[0];
     const event_type = document.getElementsByName("event_type")[0];
+    const event_flyer = document.getElementsByName("event_flyer")[0];
     const optional_details = document.getElementsByName("optional_details")[0];
 
-    if(event_name.value=="" || conduct_by.value=="" || event_type.value==""){
+    if(event_name.value=="" || conduct_by.value=="" || event_type.value=="" || event_flyer.value==""){
         alert("Please fill all the fields");
         return;
     }
@@ -378,6 +366,7 @@ document.getElementById("resource_form_submit").innerHTML="<i class='fas fa-circ
             event_name: event_name.value,
             conduct_by: conduct_by.value,
             event_type: event_type.value,
+            event_flyer: event_flyer.value,
             optional_details: optional_details.value,
         }
     ).then(
@@ -410,6 +399,7 @@ document.getElementById("resource_form_submit").innerHTML="<i class='fas fa-circ
             event_name.value = "";
             conduct_by.value = "";
             event_type.value = "";
+            event_flyer.value = "";
             optional_details.value = "";
             
 
