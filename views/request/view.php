@@ -71,6 +71,9 @@
                                     REQUEST DATE
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    FLYER
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     PRIORITY
                                 </th>
                                 <th scope="col" class="px-6 py-3 h-12 flex justify-center items-end  " >
@@ -508,6 +511,9 @@ function search(page = 1) {
                 	<td class="px-6 py-4">
                     	${request.REQUEST_DATE?request.REQUEST_DATE:"-"}
                 	</td>
+                    <td class="px-6 py-4">
+                        ${request.EVENT_FLYER ? `<a href="${request.EVENT_FLYER}" class="font-medium text-blue-400 dark:text-blue-500 hover:underline" target="_blank">View Flyer</a>` : "No Flyer"}
+                    </td>
                 	<td class="px-6 py-4">
                         <span class="${className}">${request.PRIORITY}</span>
                 	</td>

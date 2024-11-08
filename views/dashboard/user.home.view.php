@@ -1,7 +1,7 @@
 <?php
 require_once "../../utils/header.php";
 require_once ("../../utils/user.sidebar.php");
-// require_once "../../database/timetable_synchronize/synchronize.php";
+//require_once "../../database/timetable_synchronize/synchronize.php";
 include("../../database/connection.php");
 
 
@@ -56,8 +56,7 @@ $total_requests = $approve_count + $pending_count + $declined_count;
 <link rel="stylesheet" href="../../assets/lib/simple-notify.min.css" />
 <script src="../../assets/lib/simple-notify.min.js"></script>
 <script language="javascript" type="text/javascript" src="/path/to/file/src/profile-image.js"></script>
-<link rel="stylesheet" href="./dashboard_view.css">
-<link rel="stylesheet"href='./tableStyle.css'>
+<link rel="stylesheet" href="dash_view.css">
 <style>
     
 </style>
@@ -67,7 +66,7 @@ $total_requests = $approve_count + $pending_count + $declined_count;
             <h1 class="mb-8 text-4xl text-center md:text-left font-bold leading-none text-gray-700 md:text-5xl lg:text-5xl 2xl:mt-10 mt-8 dark:text-white">
                 Dashboard
             </h1>
-            <link rel="stylesheet" href="timelineStyle.css">
+            
 
                 <div class="container">
                     <div class="cards-wrapper">

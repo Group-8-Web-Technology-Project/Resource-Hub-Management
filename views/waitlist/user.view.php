@@ -86,25 +86,13 @@ include("../../database/connection.php");
         background-color: #4b5563;
     }
 
-    button {
-        cursor: pointer;
-        font-size: 0.875rem;
-		display: flex;
-		align-items: space-between;
-        font-weight: 600;
-        border-radius: 6px;
-        padding: 8px 16px;
-        transition: background-color 0.2s, box-shadow 0.2s;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
     button.bg-blue-500 {
-        background-color: #3b82f6;
+        background:linear-gradient(#229c65,#3eecb2);
         color: #ffffff;
     }
 
     button.bg-blue-500:hover {
-        background-color: #2563eb;
+        background:linear-gradient(#03884c,#0af5a7);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     }
 
@@ -199,7 +187,6 @@ include("../../database/connection.php");
     .hidden {
         display: none;
     }
-    
     .content-wrapper{
         padding-left: 120px;
         padding-right: 120px;
@@ -265,9 +252,8 @@ include("../../database/connection.php");
 					echo '<form method="POST" action="" onsubmit="return addToWaitlist(this);">';
 					echo '<input type="hidden" name="resource_name" value="' . htmlspecialchars($row['HALL']) . '">';
 					echo '<label for="waitlist_date">Date:</label>';
-					echo '<input type="date" name="waitlist_date" required>';
-                    "</td>";
-                    echo '<td>';
+					echo '<input type="date" name="waitlist_date" required>';'</td>';
+					echo '<td>';
 					echo '<button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded">Add to Waitlist</button>';
 					echo '</form>';
 					echo '</td>';

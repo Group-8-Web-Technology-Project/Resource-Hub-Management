@@ -238,12 +238,34 @@ if(isset($_GET["approve"])){
 
 
 if(isset($_GET["request_add"])){
-    $data = json_decode(file_get_contents("php://input"),true);
     $isRecurring = $_POST["is_recurring"];
 
+    $target_file = "";
+    if (isset($_FILES['flyer']) && $_FILES['flyer']['error'] === UPLOAD_ERR_OK){
+        // Flyer upload
+        $uid = uniqid();
+        $imageFileType = strtolower(pathinfo($_FILES["flyer"]["name"], PATHINFO_EXTENSION));
+        $filename = basename($_POST["event_name"] . " by " . $_POST["conduct_by"] . "." . $imageFileType);
+        $target_dir = "../../assets/images/flyers/";
+        $target_file = $target_dir . $filename;
+        $allowedFormats = ['jpg', 'jpeg', 'png'];
+        $check = getimagesize($_FILES["flyer"]["tmp_name"]);       // Check if the uploaded file is actually an image
+
+        if ($check == false) {
+            echo "false-not_an_image";
+            exit;
+        }else if (!in_array($imageFileType, $allowedFormats)) {       // Allow only specific file formats
+            echo "false-file_format";
+            exit;
+        }else{
+            // Move the uploaded file to the target directory, replacing any existing file with the same name
+            move_uploaded_file($_FILES["flyer"]["tmp_name"], $target_file);
+        }
+    }
+    
     $eventID = $_POST["event_id"];
     if($_POST["isNewEvent"]=="true"){
-        $newEventQuery = "INSERT INTO events (EVENT_NAME,EVENT_TYPE,CONDUCT_BY,TEMP,RECURRING) VALUES ('".$_POST["event_name"]."','".$_POST["event_type"]."','".$_POST["conduct_by"]."','1','$isRecurring')";
+        $newEventQuery = "INSERT INTO events (EVENT_NAME,EVENT_TYPE,CONDUCT_BY,TEMP,RECURRING,EVENT_FLYER) VALUES ('".$_POST["event_name"]."','".$_POST["event_type"]."','".$_POST["conduct_by"]."','1','$isRecurring','$target_file')";
      
         $newEventResult = $conn->query($newEventQuery);
         
@@ -296,9 +318,9 @@ if(isset($_GET["request_add"])){
 
     }
 
-    $decline_message = 'None';
+
     $request_message = addslashes($request_message);
-    $query = "INSERT INTO request (EVENT_ID,RESOURCE_ID,TIME_SLOT_ID,REQUEST_DATE,REQUEST_APPROVED,USER_ID,PRIORITY,REQUEST_MESSAGE,DECLINE_MESSAGE) VALUES ('$eventID','$resourceID','$timeSlotID','$date','0',$uid,'$priority','$request_message','$decline_message')";
+    $query = "INSERT INTO request (EVENT_ID,RESOURCE_ID,TIME_SLOT_ID,REQUEST_DATE,REQUEST_APPROVED,USER_ID,PRIORITY,REQUEST_MESSAGE) VALUES ('$eventID','$resourceID','$timeSlotID','$date','0',$uid,'$priority','$request_message')";
     
     $result = $conn->query($query);
 
