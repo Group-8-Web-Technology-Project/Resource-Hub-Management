@@ -213,8 +213,9 @@ include("../../database/connection.php");
             <h1 class="mb-8 text-4xl text-center md:text-left font-bold leading-none text-gray-700 md:text-5xl lg:text-5xl 2xl:mt-10 mt-8 dark:text-white">
                 Resource Waitlist
             </h1>
+	    <h2 class="text-2xl font-semibold mt-8 mb-4 dark:text-white">Occupied Halls</h2>
         </div>
-		<h2 class="text-2xl font-semibold mt-8 mb-4 dark:text-white">Occupied Halls</h2>
+		
 		<div class="content-wrapper">
         <?php
 			$host = "localhost";
