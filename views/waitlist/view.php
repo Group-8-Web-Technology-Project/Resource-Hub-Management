@@ -220,9 +220,9 @@ include("../../database/connection.php");
 		<div class="content-wrapper">
         <?php
 			$host = "localhost";
-			$user = "root";
-			$password = "";
-			$database = "resourcehub";
+			$user = "csc210user";
+			$password = "CSC210!";
+			$database = "group8";
 			$conn = new mysqli($host, $user, $password, $database);
 
 			if ($conn->connect_error) {
