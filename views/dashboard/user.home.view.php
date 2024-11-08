@@ -1,7 +1,7 @@
 <?php
 require_once "../../utils/header.php";
 require_once ("../../utils/user.sidebar.php");
-// require_once "../../database/timetable_synchronize/synchronize.php";
+require_once "../../database/timetable_synchronize/synchronize.php";
 include("../../database/connection.php");
 
 
