@@ -25,10 +25,12 @@
     Welcome to the future of streamlined resource management at the Computer Science Department of the University of Jaffna, courtesy of ResourceHub. This innovative platform redefines efficiency by offering a seamless solution to book resources in advance. Whether you're eyeing that state-of-the-art lab for a coding marathon or reserving a conference room for a collaborative project, ResourceHub ensures that you have the tools you need at your fingertips. Say goodbye to scheduling conflicts and hello to a new era of organized and hassle-free resource allocation.
 </p>
 <a href="./views/login/view.php">
+<center>
 <button 
-                            class="text-white w-1/2 mt-8 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 my-2">
-                            Sign In
-                        </button>
+class="text-white w-1/2 mt-8 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 my-2">
+Sign In
+</button>
+</center
 </a>
 </div>
 </div>
