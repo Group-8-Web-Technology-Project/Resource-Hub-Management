@@ -41,7 +41,7 @@ $event = $result->fetch_assoc();
                     <h1
                         class="mb-3 text-4xl  font-bold leading-none text-gray-700 md:text-5xl lg:text-5xl mt-1 dark:text-white">
                         <?php echo $event["EVENT_NAME"]  ?></h1>
-
+                        
                     <p class="font-normal mb-2  text-xl text-gray-700 dark:text-gray-400">
                         <?php echo $event["CONDUCT_BY"]  ?></p>
 
@@ -75,14 +75,7 @@ $event = $result->fetch_assoc();
             <div class="" id="allocations">
 
             </div>
-
-
-
         </div>
-
-
-
-
 
     </div>
 
@@ -238,14 +231,14 @@ $event = $result->fetch_assoc();
                                     Other</option>
                             </select>
                         </div>
-
-
-
-
-
-
                         <div>
-
+                            <label for="flyer"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Event Flyer</label>
+                            <input type="file" name="event_flyer" id="event_flyer" 
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                >
+                        </div>
+                        <div>
                             <label for="message"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Optional
                                 Details</label>
@@ -254,11 +247,6 @@ $event = $result->fetch_assoc();
                                 placeholder="Write your thoughts here..."><?php echo $event["OPTIONAL_DETAILS"]  ?> </textarea>
 
                         </div>
-
-
-
-
-
 
                     </form>
                     <button onclick="editEvent()" id="resource_form_submit"
@@ -508,11 +496,12 @@ function editEvent() {
     const event_name = document.getElementsByName("event_name")[0].value;
     const conduct_by = document.getElementsByName("conduct_by")[0].value;
     const event_type = document.getElementsByName("event_type")[0].value;
+    const event_flyer = document.getElementsByName("event_flyer")[0].value;
     const optional_details = document.getElementsByName("optional_details")[0].value;
     
     document.getElementById("resource_form_submit").innerHTML="<i class='fas fa-circle-notch fa-spin mr-2'></i> Saving...";
 
-    if(event_name=="" || conduct_by=="" || event_type==""){
+    if(event_name=="" || conduct_by=="" || event_type=="" || event_flyer==""){
         new Notify({
                     title: 'Error',
                     text: `Please fill all the fields`,
@@ -531,6 +520,7 @@ function editEvent() {
             event_name,
             conduct_by,
             event_type,
+            event_flyer,
             optional_details
         }
     ).then(res => {
